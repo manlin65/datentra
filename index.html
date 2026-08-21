@@ -26,7 +26,7 @@ main>section{width:100%;max-width:none;margin-left:0;margin-right:0}
 .hero p{max-width:780px;font-size:14px;line-height:1.55;color:#edf5fb}
 .hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
 .hero-tags span{display:inline-block;background:rgba(89,198,181,.16);border:1px solid rgba(89,198,181,.55);color:#8ee0d2;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px}
-.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
 .product{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 9px 26px rgba(18,40,65,.06)}
 .badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#edf4f8;color:#3f5b73;font-size:9px;font-weight:900;letter-spacing:1.1px}
 .product h2{font-size:28px;line-height:1.08;margin:14px 0 10px}
@@ -43,7 +43,14 @@ main>section{width:100%;max-width:none;margin-left:0;margin-right:0}
 .contact h2{margin:0 0 7px}.contact p,.contactbox{font-size:12px;line-height:1.6;color:var(--muted)}
 .contactbox{border-left:3px solid var(--teal);padding-left:15px}
 footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-size:10px}
-@media(max-width:1050px){.products{grid-template-columns:1fr 1fr}}@media(max-width:850px){.products,.contact{grid-template-columns:1fr}.hero h1{font-size:34px}header .right{display:none}}
+@media(max-width:850px){.products,.contact{grid-template-columns:1fr}.hero h1{font-size:34px}header .right{display:none}}
+
+.products .product{min-width:0}
+@media(min-width:851px){
+  .products .product{padding:26px}
+  .products .product h2{font-size:30px;line-height:1.08}
+}
+
 </style>
 </head>
 <body>
@@ -59,8 +66,8 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
  <section class="hero">
    <div class="eyebrow">DATENTRA SOFTWARELÖSUNGEN</div>
    <h1>Prozesse vereinfachen.<br><span>Daten intelligent nutzen.</span></h1>
-   <p>Praxisnahe Lösungen für Dokumentenverarbeitung, Datenübernahme und Datenprüfung sowie Personal- und Maschinenplanung. Die Anwendungen können an vorhandene Abläufe und firmeneigene Datenstrukturen angepasst werden.</p>
-   <div class="hero-tags"><span>INVOICE</span><span>WORKFORCE</span><span>DATABRIDGE</span></div>
+   <p>Praxisnahe Lösungen für Dokumentenverarbeitung, Datenübernahme, E-Mail-Workflows sowie Personal- und Maschinenplanung. Die Anwendungen können an vorhandene Abläufe und firmeneigene Datenstrukturen angepasst werden.</p>
+   <div class="hero-tags"><span>INVOICE</span><span>WORKFORCE</span><span>DATABRIDGE</span><span>OFFICEFLOW</span></div>
  </section>
 
  <section class="products">
@@ -119,6 +126,24 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
      </ul>
      <a class="btn" href="flyer/DATENTRA_DataBridge_Flyer.pdf" target="_blank">Flyer ansehen →</a>
    </article>
+   <article class="product">
+     <div class="badge">DATENTRA OFFICEFLOW</div>
+     <h2>E-Mail rein.<br><span>Strukturierter Vorgang raus.</span></h2>
+     <p>E-Mails einlesen, wichtige Informationen erkennen, den Vorgang vor der Speicherung prüfen und strukturiert weiterverarbeiten.</p>
+     <div class="flow">
+       <div class="step"><i>1</i><b>E-Mail</b></div><span class="arr">›</span>
+       <div class="step"><i>2</i><b>Erkennen</b></div><span class="arr">›</span>
+       <div class="step"><i>3</i><b>Editieren</b></div><span class="arr">›</span>
+       <div class="step"><i>4</i><b>ODS</b></div>
+     </div>
+     <ul>
+       <li>Reklamationen, Wartungen, Prüfungen und Aufgaben</li>
+       <li>Absender, Betreff, Priorität und Fälligkeit erkennen</li>
+       <li>Alle Daten vor Speicherung kontrollierbar</li>
+       <li>Später IMAP/Outlook, Datenbank, ERP oder DMS</li>
+     </ul>
+     <a class="btn" href="flyer/DATENTRA_OfficeFlow_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+   </article>
  </section>
 
  <section class="sources">
@@ -133,7 +158,11 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
      <b>Excel ↔ Excel</b>, <b>Excel ↔ Datenbank</b>, <b>Datenbank ↔ Datenbank</b> oder <b>Datei ↔ Datei</b>.
      Weitere Ausbaustufen: Daten vor der Speicherung bearbeiten, Prüfregeln und Importprofile speichern sowie Daten kontrolliert zwischen Systemen verschieben.
    </p>
- </section>
+ <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:var(--muted)">
+     <b style="color:var(--text)">OfficeFlow:</b>
+     E-Mails werden in strukturierte Vorgänge überführt. Heute mit ODS, später optional mit automatischem Postfacheingang sowie SQL Server, Oracle, ERP oder DMS.
+   </p>
+   </section>
 
  <section class="contact">
    <div>
