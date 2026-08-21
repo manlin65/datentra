@@ -16,14 +16,18 @@ header{height:68px;background:#fff;border-bottom:1px solid var(--line);display:f
 .logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,var(--navy),var(--blue),var(--teal));display:grid;place-items:center;color:white;font-weight:900;font-size:23px}
 .brand b{font-size:22px}.brand small{display:block;font-size:8px;letter-spacing:1.5px;color:var(--muted)}
 header .right{font-size:12px;color:var(--muted)}
-main{max-width:1180px;margin:auto;padding:22px 20px 34px}
-.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:22px;padding:38px;color:#fff}
+main{width:100%;max-width:1220px;margin:0 auto;padding:22px 20px 34px}
+main>section{width:100%;max-width:none;margin-left:0;margin-right:0}
+.hero,.products,.sources,.contact{width:100%}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:22px;padding:38px;color:#fff;position:relative}
 .eyebrow{font-size:10px;letter-spacing:1.7px;color:var(--teal);font-weight:900}
 .hero h1{font-size:42px;line-height:1.04;margin:8px 0 11px}
 .hero h1 span,.product h2 span{color:var(--teal)}
 .hero p{max-width:780px;font-size:14px;line-height:1.55;color:#edf5fb}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
-.product{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 9px 26px rgba(18,40,65,.06)}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.hero-tags span{display:inline-block;background:rgba(89,198,181,.16);border:1px solid rgba(89,198,181,.55);color:#8ee0d2;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+.product{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 9px 26px rgba(18,40,65,.06)}
 .badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#edf4f8;color:#3f5b73;font-size:9px;font-weight:900;letter-spacing:1.1px}
 .product h2{font-size:28px;line-height:1.08;margin:14px 0 10px}
 .product p{font-size:13px;line-height:1.5;color:var(--muted)}
@@ -39,7 +43,7 @@ main{max-width:1180px;margin:auto;padding:22px 20px 34px}
 .contact h2{margin:0 0 7px}.contact p,.contactbox{font-size:12px;line-height:1.6;color:var(--muted)}
 .contactbox{border-left:3px solid var(--teal);padding-left:15px}
 footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-size:10px}
-@media(max-width:850px){.products,.contact{grid-template-columns:1fr}.hero h1{font-size:34px}header .right{display:none}}
+@media(max-width:1050px){.products{grid-template-columns:1fr 1fr}}@media(max-width:850px){.products,.contact{grid-template-columns:1fr}.hero h1{font-size:34px}header .right{display:none}}
 </style>
 </head>
 <body>
@@ -55,7 +59,8 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
  <section class="hero">
    <div class="eyebrow">DATENTRA SOFTWARELÖSUNGEN</div>
    <h1>Prozesse vereinfachen.<br><span>Daten intelligent nutzen.</span></h1>
-   <p>Praxisnahe Lösungen für Dokumentenverarbeitung, Datenprüfung sowie Personal- und Maschinenplanung. Die Anwendungen können an vorhandene Abläufe und firmeneigene Datenstrukturen angepasst werden.</p>
+   <p>Praxisnahe Lösungen für Dokumentenverarbeitung, Datenübernahme und Datenprüfung sowie Personal- und Maschinenplanung. Die Anwendungen können an vorhandene Abläufe und firmeneigene Datenstrukturen angepasst werden.</p>
+   <div class="hero-tags"><span>INVOICE</span><span>WORKFORCE</span><span>DATABRIDGE</span></div>
  </section>
 
  <section class="products">
@@ -96,6 +101,24 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
      </ul>
      <a class="btn" href="flyer/DATENTRA_Workforce_Flyer.pdf" target="_blank">Flyer ansehen →</a>
    </article>
+   <article class="product">
+     <div class="badge">DATENTRA DATABRIDGE</div>
+     <h2>Daten verbinden.<br><span>Ohne manuelle Übertragung.</span></h2>
+     <p>CSV, Excel, ODS und SQL Server einlesen, Daten prüfen, Spalten zuordnen und kontrolliert in ein Zielsystem übertragen.</p>
+     <div class="flow">
+       <div class="step"><i>1</i><b>Quelle</b></div><span class="arr">›</span>
+       <div class="step"><i>2</i><b>Prüfen</b></div><span class="arr">›</span>
+       <div class="step"><i>3</i><b>Zuordnen</b></div><span class="arr">›</span>
+       <div class="step"><i>4</i><b>Ziel</b></div>
+     </div>
+     <ul>
+       <li>CSV, Excel, ODS und SQL Server</li>
+       <li>Vorschau, Prüfung und Feldzuordnung</li>
+       <li>Gute und fehlerhafte Testdateien inklusive</li>
+       <li>Ausbaubar zur universellen Datendrehscheibe</li>
+     </ul>
+     <a class="btn" href="flyer/DATENTRA_DataBridge_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+   </article>
  </section>
 
  <section class="sources">
@@ -104,6 +127,12 @@ footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-
    <div class="chips">
      <span>Excel / ODS</span><span>SQL Server</span><span>Oracle</span><span>REST API</span><span>DMS / ERP</span><span>firmeneigene Datenstruktur</span>
    </div>
+   <p style="margin:15px 0 0;font-size:13px;line-height:1.6;color:var(--muted)">
+     <b style="color:var(--text)">DataBridge-Zielbild:</b>
+     Datenquellen und Zielsysteme frei kombinieren – z. B.
+     <b>Excel ↔ Excel</b>, <b>Excel ↔ Datenbank</b>, <b>Datenbank ↔ Datenbank</b> oder <b>Datei ↔ Datei</b>.
+     Weitere Ausbaustufen: Daten vor der Speicherung bearbeiten, Prüfregeln und Importprofile speichern sowie Daten kontrolliert zwischen Systemen verschieben.
+   </p>
  </section>
 
  <section class="contact">
