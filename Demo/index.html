@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DATENTRA DataCheck 1.0</title>
+<script>
+window.__sheetJsReady=false;
+(function(){
+ const sources=[
+  "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js",
+  "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+ ];
+ let i=0;
+ function next(){if(i>=sources.length)return;const s=document.createElement("script");s.src=sources[i++];s.onload=()=>window.__sheetJsReady=typeof XLSX!=="undefined";s.onerror=next;document.head.appendChild(s)}
+ next();
+})();
+</script>
+<style>
+:root{--n:#10304d;--g:#53c2a9;--bg:#f4f8fa;--line:#d9e4ea;--txt:#10283d;--muted:#6d7d8c;--warn:#f2b849;--bad:#c65c61}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px Segoe UI,Arial,sans-serif}
+header{background:var(--n);color:white;padding:21px 28px}header h1{margin:0;font-size:30px}header b{color:var(--g)}
+.wrap{max-width:1580px;margin:auto;padding:18px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(15,43,63,.035)}
+.status{padding:9px 12px;border-radius:8px;background:#edf7fb;border:1px solid #cfe4ee;margin-bottom:12px}
+.top{display:grid;grid-template-columns:1.45fr repeat(6,1fr);gap:10px}.drop{border:2px dashed #9db7c8;min-height:108px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}.kpi strong{font-size:27px;display:block}
+button,select,input{font:inherit}button{border:0;border-radius:7px;padding:8px 11px;font-weight:650;cursor:pointer}.primary{background:var(--g)}.secondary{background:#edf3f6}.danger{background:#ffe9e9}.toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.muted{color:var(--muted)}.badge{display:inline-block;background:#e8f7f3;color:#2b6255;padding:3px 7px;border-radius:999px;font-size:11px;font-weight:700}
+.main{display:grid;grid-template-columns:330px 1fr;gap:12px}.source{border:1px solid var(--line);border-radius:8px;padding:8px;margin:6px 0;background:#fbfdfe}.source.active{border-color:var(--g);box-shadow:0 0 0 2px rgba(83,194,169,.18)}.source small{color:var(--muted)}.sourcehead{display:flex;justify-content:space-between;gap:8px}.srcactions{display:flex;gap:5px;margin-top:7px}
+.profilegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:8px}.profile{border:1px solid var(--line);border-radius:8px;padding:8px;background:#fbfdfe}
+.grid{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:max-content;min-width:100%;font-size:13px}th,td{padding:7px 8px;border-bottom:1px solid #edf1f4;white-space:nowrap}th{background:#eef3f6;position:sticky;top:0;z-index:1}.problem td{background:#fff7e7}.duplicate td{background:#ffecec}
+.issue{padding:10px 12px;border-left:4px solid var(--warn);background:#fff9eb;margin:7px 0}.issue.bad{border-left-color:var(--bad);background:#fff3f3}.issue.good{border-left-color:var(--g);background:#effaf6}.explain{margin-top:5px;color:#506979}.actionrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.merge{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:10px 0}.mergehead{padding:9px 11px;background:#f7fafb;display:flex;justify-content:space-between;gap:10px}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;padding:9px}.col{border:1px solid var(--line);border-radius:7px;padding:8px}.gold{background:#eefaf6}.field{display:grid;grid-template-columns:105px 1fr;gap:6px;padding:4px 0;border-bottom:1px solid #edf1f4}.field input{width:100%;padding:5px;border:1px solid #bdccd5;border-radius:5px}.conflict{background:#fff5dc}
+.profileeditor{display:grid;grid-template-columns:1.5fr .9fr .65fr .65fr .75fr .75fr;gap:6px;align-items:center}.profileeditor>*{padding:5px}.profileeditor .head{font-weight:700;background:#eef4f7;border-radius:5px}
+.mapping{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;align-items:center}.mapping .head{font-weight:700;background:#eef4f7;padding:6px;border-radius:5px}.mapping select{width:100%;padding:6px}
+.history{max-height:220px;overflow:auto}.history div{padding:6px;border-bottom:1px solid #edf1f4}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.examplebtn{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.examplebtn small{color:var(--muted)}
+@media(max-width:980px){.top{grid-template-columns:1fr 1fr}.main,.two{grid-template-columns:1fr}.profileeditor{grid-template-columns:1fr 1fr}}
+</style>
+<!-- DATENTRA DataCheck 1.0 | interner Build 37 -->
+<!-- DataCheck 1.0 | PLZ/Ort-Korrektur Build -->
+</head>
+<body>
+<header><h1>DATENTRA DataCheck <b>1.0</b></h1><div>Mehrere Dateien · Excel-Blätter · XML-Tabellen · Golden Records · Projekte speichern · Prüfprofile · Export</div></header>
+<div class="wrap">
+<div id="status" class="status">Bereit. CSV/XML lokal; Excel/ODS über Tabellenleser. Projektdateien (.datentra) funktionieren lokal.</div>
+
+<div class="top">
+<label class="card drop"><input id="file" type="file" accept=".xlsx,.xls,.ods,.csv,.xml,.datentra" multiple hidden><div><b>Dateien laden</b><br>Excel · ODS · CSV · XML · DATENTRA<br><small>Mehrfachauswahl oder Drag &amp; Drop</small></div></label>
+<div class="card kpi"><strong id="kTables">0</strong>Tabellen</div>
+<div class="card kpi"><strong id="kRows">0</strong>Datensätze</div>
+<div class="card kpi"><strong id="kIssues">0</strong>Auffälligkeiten</div>
+<div class="card kpi"><strong id="kGroups">0</strong>Golden-Record-Gruppen</div><div class="card kpi"><strong id="kAccepted">0</strong>Blätter übernommen</div><div class="card kpi"><strong id="kSchema">0</strong>Schema-Mappings</div>
+</div>
+
+<div class="card">
+<div class="toolbar">
+<button class="primary" onclick="analyzeCurrent()">Datenqualität prüfen</button><button class="secondary" onclick="cleanupPLZ()">PLZ bereinigen</button><button class="secondary" onclick="cleanupOrt()">Ort bereinigen</button>
+<button class="secondary" onclick="analyzeAll()">Alle Tabellen prüfen</button>
+<button class="secondary" onclick="openRules()">Profilregeln</button>
+<select id="profile"><option value="auto">Automatisch</option></select>
+<button class="secondary" onclick="saveProfile()">Profil speichern</button>
+<button class="secondary" id="undoBtn" onclick="undo()">↶ Rückgängig</button>
+<button class="secondary" id="redoBtn" onclick="redo()">↷ Wiederholen</button>
+<button class="secondary" onclick="saveProject()">💾 Projekt speichern</button><button class="primary" onclick="saveAcceptedWorkbook()">💾 Excel mit allen Blättern speichern</button>
+<button class="secondary" onclick="document.getElementById('projectFile').click()">📂 Projekt öffnen</button>
+<input id="projectFile" type="file" accept=".datentra" hidden>
+<span id="stackStatus" class="muted"></span>
+</div>
+</div>
+
+<div class="card examplebtn">
+<b>Beispiele:</b>
+<button id="ex_multi" class="secondary" onclick="loadExample('multi')">Mehrere Tabellen</button><small>3 Tabellen / verschiedene Prüfungen</small>
+<button id="ex_triple" class="secondary" onclick="loadExample('triple')">3× gleiche Firma</button><small>3 Datensätze → 1 Golden Record</small>
+<button id="ex_mapping" class="secondary" onclick="loadExample('mapping')">Schema-Mapping</button><small>Kundennr ↔ Kunden_ID, Firma ↔ Unternehmen</small>
+<select id="testCaseSelect" style="padding:7px;min-width:260px" onchange="loadTestCase(this.value)">
+  <option value="">Weitere Testfälle laden …</option>
+  <option value="email">E-Mail Check · 20 Datensätze</option>
+  <option value="plz">PLZ/Ort Deutschland · 20 Datensätze</option>
+  <option value="articles">Artikel/Dubletten</option><option value="werkzeug_varianten">Werkzeuge & Hammer · Varianten</option>
+  <option value="customers">Kunden/Golden Record</option>
+  <option value="broken_csv">Kaputte CSV-Struktur</option>
+  <option value="broken_xml">Kaputte XML-Struktur</option>
+  <option value="xml_multi">XML mit mehreren Tabellen</option>
+  <option value="schema_mapping">Schema-Mapping Excel</option>
+</select>
+</div>
+
+<div class="main">
+<aside>
+<div class="card">
+<div class="toolbar" style="justify-content:space-between"><h3 style="margin:0">Datenquellen / Tabellen</h3><div class="toolbar"><button class="primary" onclick="checkSchemaMappings()">🔎 Auf Schema-Mapping prüfen</button><button class="secondary" onclick="mergeSelectedTables()">Manuell zusammenführen</button></div></div>
+<div id="schemaPrompt" class="issue good" style="display:none;margin-top:9px"></div>
+<div id="sources" class="muted" style="margin-top:9px">Noch keine Daten geladen.</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Anzeige</h3>
+<select id="filter" onchange="renderTable()" style="width:100%;padding:7px">
+<option value="all">Alle Datensätze</option><option value="problems">Nur Probleme</option><option value="duplicates">Nur Dubletten / Golden Record</option><option value="unresolved">Nur ungeklärte Konflikte</option>
+</select>
+</div>
+</aside>
+
+<main>
+<div id="rulesPanel" class="card" style="display:none"><div class="toolbar" style="justify-content:space-between"><div><h3 style="margin:0">Prüfprofil – Regeln</h3><small>Typ · Pflicht · eindeutig · Min/Max</small></div><div><button class="primary" onclick="applyRules()">Regeln übernehmen</button> <button class="secondary" onclick="$('rulesPanel').style.display='none'">Schließen</button></div></div><div id="rulesEditor" style="margin-top:10px"></div></div>
+
+<div id="mappingPanel" class="card" style="display:none"><div class="toolbar" style="justify-content:space-between"><div><h3 style="margin:0">Automatisches Schema-Mapping</h3><small>DataCheck hat semantisch passende Spalten erkannt. Vorschläge prüfen und bestätigen.</small></div><div><button class="primary" onclick="confirmMergeTables()">Mapping übernehmen &amp; Tabellen vereinheitlichen</button> <button class="secondary" onclick="$('mappingPanel').style.display='none'">Abbrechen</button></div></div><div id="mappingEditor" style="margin-top:10px"></div></div>
+
+<div class="card"><div class="toolbar" style="justify-content:space-between"><div>
+<h3 id="tableTitle" style="margin:0">Datenvorschau</h3>
+<div class="toolbar" style="margin-top:5px">
+<span id="tableMeta" class="badge">Keine Tabelle</span>
+<span id="fileNameDisplay" class="muted" style="font-weight:600"></span>
+<span id="exampleDisplay" class="badge" style="display:none;background:#fff2cf;color:#7a5a00"></span>
+</div>
+</div><div class="toolbar"><button class="secondary" onclick="showCleanAndJump()">Bereinigung ansehen</button><button class="secondary" onclick="report()">Prüfbericht</button></div></div><div id="profiles" class="profilegrid" style="margin:12px 0"></div><div id="table" class="grid"><div class="muted" style="padding:18px">Datei laden.</div></div></div>
+
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Prüfung &amp; Vorschläge</h3><div id="suggest">Noch keine Analyse.</div></div>
+<div class="card"><h3 style="margin-top:0">Änderungsprotokoll</h3><div id="history" class="history">Noch keine Änderungen.</div></div>
+</div>
+
+<div id="mergePanel" class="card" style="display:none"><h3 style="margin-top:0">Golden Record – Gruppen</h3><div id="mergeList"></div></div>
+<div id="cleanPanel" class="card" style="display:none"><div class="toolbar" style="justify-content:space-between"><div><h3 id="cleanSheetTitle" style="margin:0">Bereinigungsvorschau</h3><small id="cleanFileTitle" class="muted"></small><br><small id="commitHint" class="muted">Prüfen und anschließend dieses Tabellenblatt übernehmen.</small></div><div class="toolbar"><button class="primary" onclick="commitCurrentTable()">✓ Bereinigte Daten übernehmen</button><select id="exportFormat"><option value="xlsx">XLSX</option><option value="csv">CSV</option><option value="xml">XML</option><option value="ods">ODS</option></select><button class="secondary" onclick="exportCurrent()">Dieses Blatt exportieren</button><button class="primary" style="background:#2f9f82;color:white" onclick="saveAcceptedWorkbook()">💾 Excel mit allen Blättern speichern</button></div></div><div id="clean" class="grid" style="margin-top:10px"></div></div>
+<div id="reportPanel" class="card" style="display:none"><h3 style="margin-top:0">Prüfbericht</h3><div id="report"></div><br><button class="secondary" onclick="window.print()">Drucken / als PDF speichern</button></div>
+</main>
+</div>
+</div>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const n=v=>String(v??"").trim(), key=v=>n(v).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+const lev=(a,b)=>{a=key(a);b=key(b);if(!a||!b)return 0;let d=Array.from({length:a.length+1},()=>Array(b.length+1).fill(0));for(let i=0;i<=a.length;i++)d[i][0]=i;for(let j=0;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return 1-d[a.length][b.length]/Math.max(a.length,b.length)};
+let tables=[],current=-1,undoStack=[],redoStack=[],pendingMerge=null,activeExample='',schemaCandidates=[];
+const knownPLZ={"91126":"Schwabach","90402":"Nürnberg","90451":"Nürnberg","90763":"Fürth","91052":"Erlangen","91054":"Erlangen","91154":"Roth"};
+
+function freshState(){return{types:[],findings:[],groups:[],accepted:[],history:[],ignored:[],rules:{},clean:null,committed:null,committedAt:null}}
+function makeTable(source,name,matrix){return{id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),source,name,matrix,state:freshState(),selected:true}}
+function currentTable(){return tables[current]||null}
+function deep(v){return JSON.parse(JSON.stringify(v))}
+function snap(label){return{label,tables:deep(tables),current}}
+function pushUndo(label){undoStack.push(snap(label));if(undoStack.length>40)undoStack.shift();redoStack=[];updateUndo()}
+function restore(s){tables=deep(s.tables);current=s.current;renderSources();if(current>=0){analyzeCurrent(false)}else renderEmpty();updateUndo()}
+function undo(){if(!undoStack.length)return;redoStack.push(snap("redo"));restore(undoStack.pop())}
+function redo(){if(!redoStack.length)return;undoStack.push(snap("undo"));restore(redoStack.pop())}
+function updateUndo(){$("undoBtn").disabled=!undoStack.length;$("redoBtn").disabled=!redoStack.length;$("stackStatus").textContent=`Undo ${undoStack.length} · Redo ${redoStack.length}`}
+
+
+function normalizePlzValue(v){
+ const s=n(v);
+ if(!s)return s;
+ // remove spaces first
+ const compact=s.replace(/\s+/g,"");
+ // common OCR/input cleanup only when this clearly produces 5 digits
+ const replacements={O:"0",o:"0",I:"1",l:"1",S:"5",B:"8"};
+ let candidate=compact.split("").map(ch=>replacements[ch]??ch).join("");
+ candidate=candidate.replace(/[^0-9]/g,"");
+ if(candidate.length===5)return candidate;
+ return s;
+}
+function cleanupPLZ(){
+ const t=currentTable();if(!t)return alert("Bitte zuerst eine Tabelle laden.");
+ const ci=t.state.types.indexOf("PLZ");
+ if(ci<0)return alert("Keine PLZ-Spalte erkannt.");
+ pushUndo("PLZ bereinigen");
+ let changed=0;
+ for(let r=1;r<t.matrix.length;r++){
+   const old=n(t.matrix[r][ci]), neu=normalizePlzValue(old);
+   if(neu!==old){t.matrix[r][ci]=neu;changed++;t.state.history.push(`Datensatz ${r}: PLZ "${old}" → "${neu}"`);}
+ }
+ t.state.committed=null;t.state.committedAt=null;
+ analyzeCurrent(false);
+ $("status").textContent=`✓ PLZ-Bereinigung abgeschlossen: ${changed} Wert(e) geändert.`;
+}
+function cleanupOrt(){
+ const t=currentTable();if(!t)return alert("Bitte zuerst eine Tabelle laden.");
+ const pc=t.state.types.indexOf("PLZ"), oc=t.state.types.indexOf("Ort");
+ if(pc<0||oc<0)return alert("PLZ- und Ort-Spalte müssen erkannt sein.");
+ pushUndo("Ort bereinigen");
+ let changed=0,proposals=0;
+ for(let r=1;r<t.matrix.length;r++){
+   const p=n(t.matrix[r][pc]),o=n(t.matrix[r][oc]);
+   if(/^\d{5}$/.test(p)&&knownPLZ[p]){
+     if(!o || key(o)!==key(knownPLZ[p])){
+       const old=o;
+       t.matrix[r][oc]=knownPLZ[p];
+       changed++;
+       t.state.history.push(`Datensatz ${r}: Ort "${old}" → "${knownPLZ[p]}" anhand PLZ ${p}`);
+     }
+     proposals++;
+   }
+ }
+ t.state.committed=null;t.state.committedAt=null;
+ analyzeCurrent(false);
+ $("status").textContent=`✓ Ort-Bereinigung abgeschlossen: ${changed} Wert(e) geändert.`;
+}
+function parseDelimited(text){
+ text=String(text||"").replace(/^\uFEFF/,"");const first=text.split(/\r?\n/).find(x=>x.trim())||"";const seps=[";",",","\t","|"];const sep=seps.map(s=>[s,(first.split(s).length-1)]).sort((a,b)=>b[1]-a[1])[0][0];
+ const rows=[];let row=[],cell="",q=false;
+ for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(q&&text[i+1]==='"'){cell+='"';i++}else q=!q}else if(c===sep&&!q){row.push(cell);cell=""}else if((c==="\n"||c==="\r")&&!q){if(c==="\r"&&text[i+1]==="\n")i++;row.push(cell);cell="";if(row.some(v=>n(v)))rows.push(row);row=[]}else cell+=c}
+ if(cell||row.length){row.push(cell);if(row.some(v=>n(v)))rows.push(row)}return rows;
+}
+function xmlObject(node,prefix="",out={}){const ch=[...node.children];if(!ch.length){out[prefix||node.nodeName]=n(node.textContent);return out}ch.forEach(c=>{const k=prefix?prefix+"."+c.nodeName:c.nodeName;if(c.children.length)xmlObject(c,k,out);else out[k]=n(c.textContent)});return out}
+function xmlTables(text,file){
+ const doc=new DOMParser().parseFromString(text,"application/xml");if(doc.querySelector("parsererror"))throw Error("XML ist nicht gültig.");
+ const result=[];const root=doc.documentElement;
+ function inspectContainer(container,path){
+  const kids=[...container.children];if(!kids.length)return;
+  const counts={};kids.forEach(k=>counts[k.nodeName]=(counts[k.nodeName]||0)+1);
+  for(const [name,count] of Object.entries(counts)){
+   const recs=kids.filter(k=>k.nodeName===name);
+   if(count>=2 || (count===1 && recs[0].children.length && [...recs[0].children].every(c=>c.children.length===0))){
+    const objs=recs.map(xmlObject),heads=[];objs.forEach(o=>Object.keys(o).forEach(k=>{if(!heads.includes(k))heads.push(k)}));
+    if(heads.length)result.push(makeTable(file,path?path+"/"+name:name,[heads,...objs.map(o=>heads.map(h=>o[h]??""))]));
+   }
+  }
+  kids.forEach(k=>{if(k.children.length)inspectContainer(k,path?path+"/"+k.nodeName:k.nodeName)});
+ }
+ inspectContainer(root,root.nodeName);
+ const uniq=[];const sig=new Set();result.forEach(t=>{const s=t.name+"|"+JSON.stringify(t.matrix);if(!sig.has(s)){sig.add(s);uniq.push(t)}});return uniq;
+}
+async function waitXlsx(ms=8000){const t=Date.now();while(typeof XLSX==="undefined"&&Date.now()-t<ms)await new Promise(r=>setTimeout(r,120));return typeof XLSX!=="undefined"}
+async function parseFile(f){
+ const ext=(f.name.split(".").pop()||"").toLowerCase();
+ if(ext==="datentra"){loadProjectText(await f.text());return[]}
+ if(ext==="csv")return[makeTable(f.name,"Daten",parseDelimited(await f.text()))];
+ if(ext==="xml")return xmlTables(await f.text(),f.name);
+ if(["xlsx","xls","ods"].includes(ext)){
+  if(!await waitXlsx())throw Error("Excel/ODS-Leser konnte nicht geladen werden.");
+  const wb=XLSX.read(await f.arrayBuffer(),{type:"array",cellDates:false});return wb.SheetNames.map(sn=>makeTable(f.name,sn,XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:"",raw:false})));
+ }
+ throw Error("Nicht unterstützter Dateityp: "+ext);
+}
+async function loadFiles(files){
+ try{pushUndo("Dateien laden");activeExample="";markExample("");for(const f of files){const parsed=await parseFile(f);tables.push(...parsed)}if(current<0&&tables.length)current=0;schemaCandidates=[];tables.forEach(t=>t.state.schemaSuggestions=[]);renderSources();analyzeCurrent(false);renderAll();updateSchemaPrompt();$("status").textContent=`✓ ${files.length} Datei(en) geladen · ${tables.length} Tabelle(n) erkannt.${tables.length>1?" Optional: auf Schema-Mapping prüfen.":""}`}catch(e){$("status").textContent="✗ "+e.message}
+}
+$("file").onchange=e=>loadFiles([...e.target.files]);document.querySelector(".drop").onclick=()=>$("file").click();document.querySelector(".drop").ondragover=e=>e.preventDefault();document.querySelector(".drop").ondrop=e=>{e.preventDefault();loadFiles([...e.dataTransfer.files])};$("projectFile").onchange=e=>{if(e.target.files[0])loadFiles([e.target.files[0]])};
+
+function detect(h,vals){
+ const z=key(h);if(/plz|postleitzahl|zip/.test(z))return"PLZ";if(/ort|stadt/.test(z))return"Ort";if(/email|mail/.test(z))return"E-Mail";if(/telefon|phone|mobil|handy/.test(z))return"Telefon";if(/iban/.test(z))return"IBAN";if(/ust|vat/.test(z))return"USt-ID";if(/datum|date/.test(z))return"Datum";if(/preis|betrag|umsatz|bestand|menge/.test(z))return"Zahl";if(/nummer|nr$|^id$/.test(z))return"ID";if(vals.length&&new Set(vals.map(n)).size<Math.max(12,vals.length*.3))return"Kategorie";return"Text";
+}
+function parseNum(v){let s=n(v).replace(/\s/g,"");if(!s)return null;if(/^-?\d+,\d+$/.test(s))s=s.replace(",",".");const x=Number(s);return Number.isFinite(x)?x:null}
+function requiredHeader(h,t){return t==="ID"||/bezeichnung|beschreibung|name|firma|unternehmen|produkt|artikelbezeichnung|lieferant/.test(key(h))}
+function defaultRules(t){const H=t.matrix[0]||[];return Object.fromEntries(H.map((h,i)=>[h,{type:t.state.types[i]||"Text",required:requiredHeader(h,t.state.types[i]),unique:t.state.types[i]==="ID",min:"",max:""}]))}
+function categoryVariants(vals){
+ const freq={};vals.filter(Boolean).forEach(v=>freq[n(v)]=(freq[n(v)]||0)+1);const keys=Object.keys(freq),res=[];
+ for(let i=0;i<keys.length;i++)for(let j=i+1;j<keys.length;j++){const a=keys[i],b=keys[j];if(key(a)===key(b)&&a!==b){let from=freq[a]<=freq[b]?a:b,to=freq[a]<=freq[b]?b:a;res.push({from,to})}}
+ return res;
+}
+function entityPair(A,B,H){
+ // Firmen-/Namensspalte gezielt bestimmen. Nummernspalten wie Kundennr/Lieferantennr
+ // dürfen NICHT als Firmenname verwendet werden.
+ const ci=H.findIndex(x=>{
+   const h=key(x);
+   if(/kundennr|kundennummer|lieferantennr|lieferantennummer|artikelnummer|id$|^id$/.test(h))return false;
+   return /firma|unternehmen|firmenname|kundenname|lieferantenname|name/.test(h);
+ });
+ const si=H.findIndex(x=>/straße|strasse/i.test(x)),
+       oi=H.findIndex(x=>/ort|stadt/i.test(x)),
+       pi=H.findIndex(x=>/plz|postleitzahl/i.test(x)),
+       ti=H.findIndex(x=>/telefon|phone|mobil/i.test(x)),
+       ei=H.findIndex(x=>/email|mail/i.test(x));
+ let ev=[],score=0,max=0,cs=0,street=false,ort=false,phone=false,email=false;
+ if(ci>=0&&n(A[ci])&&n(B[ci])){max+=5;cs=lev(A[ci],B[ci]);score+=5*cs;if(cs>.75)ev.push("Firma ähnlich")}
+ if(si>=0&&n(A[si])&&n(B[si])){max+=2;const s=lev(A[si],B[si]);street=s>.68;score+=2*s;if(street)ev.push("Anschrift ähnlich")}
+ if(oi>=0&&n(A[oi])&&n(B[oi])){max+=2;ort=key(A[oi])===key(B[oi]);score+=ort?2:0;if(ort)ev.push("gleicher Ort")}
+ if(pi>=0&&n(A[pi])&&n(B[pi])){max+=1;const same=n(A[pi])===n(B[pi]);score+=same?1:0;ev.push(same?"gleiche PLZ":"PLZ-Konflikt")}
+ if(ti>=0&&n(A[ti])&&n(B[ti])){max+=4;phone=n(A[ti]).replace(/\D/g,"")===n(B[ti]).replace(/\D/g,"");score+=phone?4:0;if(phone)ev.push("gleiche Telefonnummer")}
+ if(ei>=0&&n(A[ei])&&n(B[ei])){max+=4;email=n(A[ei]).replace(/\s/g,"").toLowerCase()===n(B[ei]).replace(/\s/g,"").toLowerCase();score+=email?4:0;if(email)ev.push("gleiche E-Mail")}
+ const ratio=max?score/max:0;
+ // Auch ohne Straße/Telefon/E-Mail gilt:
+ // praktisch identische Firma + gleicher Ort ist ein starker Golden-Record-Kandidat.
+ // Das ist wichtig bei Stammdaten, bei denen ein Kontaktfeld fehlt oder die PLZ fehlerhaft ist.
+ const exactCompanySameCity = cs>=.92 && ort;
+ const qualifies =
+   exactCompanySameCity ||
+   (cs>.68&&((street&&ort)||phone||email)) ||
+   (ratio>.7&&ev.length>=3);
+ if(exactCompanySameCity && !ev.includes("Firma + Ort eindeutig passend")) ev.push("Firma + Ort eindeutig passend");
+ return{qualifies,ratio,evidence:ev};
+}
+function goldenGroup(rows,H,types){
+ return H.map((_,i)=>{const vals=rows.map(r=>n(r[i])).filter(Boolean);if(!vals.length)return{v:"",why:"leer"};const freq={};vals.forEach(v=>freq[v]=(freq[v]||0)+1);const ordered=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]);if(new Set(vals.map(key)).size===1)return{v:ordered[0],why:"in der Gruppe identisch"};if(types[i]==="PLZ"){
+ const valid=[...new Set(vals.filter(v=>/^\d{5}$/.test(v)))];
+ const invalid=[...new Set(vals.filter(v=>!/^\d{5}$/.test(v)))];
+ if(valid.length===1&&invalid.length)return{v:valid[0],why:`gültige PLZ ${valid[0]} vorgeschlagen; ungültiger Wert ${invalid.join(", ")} verworfen – bitte prüfen`,conflict:true};
+ if(valid.length===1)return{v:valid[0],why:"gültige PLZ aus der Gruppe",conflict:true};
+ if(valid.length>1)return{v:"",why:"PLZ-Konflikt – bitte auswählen",conflict:true};
+}return{v:ordered[0],why:"häufigster Wert – bitte prüfen",conflict:true}})
+}
+
+function nonIdDuplicatePair(A,B,H,types){
+  let compared=0, same=0, strong=0, conflicts=0;
+  for(let i=0;i<H.length;i++){
+    if(types[i]==="ID")continue;
+    const a=n(A[i]),b=n(B[i]);
+    if(!a&&!b)continue;
+    if(!a||!b){compared++; continue;}
+    compared++;
+    const t=types[i];
+    let eq=false;
+    if(t==="Telefon") eq=a.replace(/\D/g,"")===b.replace(/\D/g,"");
+    else if(t==="E-Mail") eq=a.replace(/\s/g,"").toLowerCase()===b.replace(/\s/g,"").toLowerCase();
+    else if(t==="PLZ") eq=a===b;
+    else eq=key(a)===key(b) || lev(a,b)>=.88;
+    if(eq){same++; if(/firma|unternehmen|lieferant|kunde|ort|plz|telefon|email/i.test(H[i]))strong++;}
+    else conflicts++;
+  }
+  const ratio=compared?same/compared:0;
+  // Same business data except the key/ID should be treated as a duplicate candidate.
+  return {qualifies:(compared>=2 && ratio>=.8 && strong>=2) || (compared>=3 && ratio>=.9),ratio,conflicts};
+}
+function baseFileName(source){
+  const s=String(source||"Daten").split(/[\\/]/).pop();
+  return s.replace(/\.(xlsx|xls|ods|csv|xml|datentra)$/i,"");
+}
+function exportStamp(){
+  const d=new Date();
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function exportBaseName(t){
+  return `${baseFileName(t.source)}_${exportStamp()}_BereinigtVonDataCheck`;
+}
+
+function plzCandidatesForOrt(ort){
+ const k=key(ort);
+ return Object.entries(knownPLZ)
+   .filter(([plz,o])=>key(o)===k)
+   .map(([plz])=>plz)
+   .sort();
+}
+function applyPlzOrtSuggestion(k,mode,value){
+ const t=currentTable(),f=t.state.findings[k];
+ if(!t||!f||f.type!=="PLZ/Ort")return;
+ pushUndo("PLZ/Ort-Vorschlag");
+ const row=f.row-1;
+ if(mode==="ort"){
+   const old=t.matrix[row][f.ortCol];
+   t.matrix[row][f.ortCol]=value;
+   t.state.history.push(`Datensatz ${f.row-1}: Ort "${old}" → "${value}" anhand PLZ ${n(t.matrix[row][f.plzCol])}`);
+ }else if(mode==="plz"){
+   const old=t.matrix[row][f.plzCol];
+   t.matrix[row][f.plzCol]=value;
+   t.state.history.push(`Datensatz ${f.row-1}: PLZ "${old}" → "${value}" passend zu Ort "${n(t.matrix[row][f.ortCol])}"`);
+ }
+ t.state.committed=null;t.state.committedAt=null;
+ analyzeCurrent(false);
+}
+function analyzeCurrent(doHistory=true){
+ const t=currentTable();if(!t)return renderEmpty();if(doHistory)pushUndo("Analyse");
+ const H=t.matrix[0]||[],R=t.matrix.slice(1);t.state.types=H.map((h,i)=>t.state.rules[h]?.type||detect(h,R.map(r=>r[i]).filter(x=>n(x))));if(!Object.keys(t.state.rules).length)t.state.rules=defaultRules(t);
+ const findings=[],dupPairs=[];
+ H.forEach((h,ci)=>{const rule=t.state.rules[h]||{};R.forEach((r,ri)=>{const v=n(r[ci]),typ=t.state.types[ci];if(rule.required&&!v)findings.push({row:ri+2,col:ci,type:"Fehlender Wert",msg:`In "${h}" fehlt ein Pflichtwert.`,why:"Im Prüfprofil ist das Feld als Pflichtfeld definiert."});if(typ==="PLZ"&&v&&!/^\d{5}$/.test(v))findings.push({row:ri+2,col:ci,type:"PLZ",msg:`"${v}" ist keine gültige 5-stellige deutsche PLZ.`,why:"Erwartet werden genau 5 Ziffern. DataCheck ändert einen uneindeutigen Wert nicht automatisch; bitte Originalquelle prüfen oder manuell korrigieren."});if(typ==="E-Mail"&&v&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){
+  const compact=v.replace(/\s+/g,"");
+  const atCount=(compact.match(/@/g)||[]).length;
+  let suggestion=null, why="Die E-Mail-Adresse entspricht nicht dem erwarteten Format.";
+  // DataCheck 1.0: Nur eindeutig entfernbare Leerzeichen automatisch vorschlagen.
+  if(compact!==v && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(compact)){
+    suggestion=compact;
+    why="Störende Leerzeichen erkannt. Nach deren Entfernung ist die Adresse formal gültig.";
+  }else if(atCount>1){
+    why="Mehr als ein @-Zeichen erkannt. Keine automatische Korrektur, da die beabsichtigte Adresse bestätigt werden muss.";
+  }else if(atCount===0){
+    why="@-Zeichen fehlt. Keine automatische Korrektur möglich.";
+  }else if(/^@/.test(compact)){
+    why="Lokaler Teil vor @ fehlt. Keine automatische Korrektur möglich.";
+  }else if(/@\./.test(compact)){
+    why="Domainname nach @ fehlt. Keine automatische Korrektur möglich.";
+  }else if(!/\.[^@\s]+$/.test(compact)){
+    why="Domain-Endung fehlt. Keine automatische Korrektur möglich.";
+  }else if(/\.\./.test(compact)){
+    why="Doppelter Punkt erkannt. Keine automatische Korrektur ohne Bestätigung.";
+  }
+  findings.push({row:ri+2,col:ci,type:"E-Mail",msg:`"${v}" ist keine gültige E-Mail-Adresse.`,why,suggestion});
+}if(typ==="IBAN"&&v&&!/^DE\d{20}$/.test(v.replace(/\s/g,"")))findings.push({row:ri+2,col:ci,type:"IBAN",msg:`"${v}" hat kein plausibles deutsches IBAN-Format.`,why:"Eine deutsche IBAN hat 22 Zeichen (DE + 20 Ziffern)."});if(typ==="USt-ID"&&v&&!/^DE\d{9}$/.test(v))findings.push({row:ri+2,col:ci,type:"USt-ID",msg:`"${v}" hat kein plausibles Format.`,why:"Deutsche USt-ID: DE + 9 Ziffern."});const x=parseNum(v),mi=rule.min===""?null:Number(String(rule.min).replace(",",".")),ma=rule.max===""?null:Number(String(rule.max).replace(",","."));if(x!==null&&mi!==null&&x<mi)findings.push({row:ri+2,col:ci,type:"Profilregel",msg:`${h} liegt unter Minimum ${rule.min}.`,why:"Grenzwert aus Prüfprofil."});if(x!==null&&ma!==null&&x>ma)findings.push({row:ri+2,col:ci,type:"Profilregel",msg:`${h} liegt über Maximum ${rule.max}.`,why:"Grenzwert aus Prüfprofil."})})});
+ H.forEach((h,ci)=>{const rule=t.state.rules[h]||{};if(!rule.unique)return;const seen={};R.forEach((r,ri)=>{const v=n(r[ci]);if(!v)return;const k=key(v);if(seen[k]!=null){findings.push({row:ri+2,col:ci,type:"Doppelter Schlüssel",msg:`${h} "${v}" kommt mehrfach vor.`,why:`Datensatz ${seen[k]+1} und ${ri+1}.`,pair:[seen[k]+2,ri+2]});dupPairs.push([seen[k]+2,ri+2])}else seen[k]=ri})});
+ H.forEach((h,ci)=>{if(t.state.types[ci]!=="Kategorie")return;categoryVariants(R.map(r=>n(r[ci]))).forEach(v=>findings.push({row:0,col:ci,type:"Schreibvariante",msg:`"${v.from}" → "${v.to}" vereinheitlichen?`,why:"Werte unterscheiden sich nur in Schreibweise.",from:v.from,to:v.to}))});
+ H.forEach((h,ci)=>{if(!/bestand|lagerbestand|menge/.test(key(h)))return;R.forEach((r,ri)=>{const x=parseNum(r[ci]);if(x!==null&&x<0)findings.push({row:ri+2,col:ci,type:"Plausibilität",msg:`${h} ist negativ (${n(r[ci])}).`,why:"Negative Bestände/Mengen sind häufig prüfbedürftig."})})});
+ const plz=t.state.types.indexOf("PLZ"),ort=t.state.types.indexOf("Ort");
+ if(plz>=0&&ort>=0)R.forEach((r,ri)=>{
+   const p=n(r[plz]),o=n(r[ort]);
+   if(/^\d{5}$/.test(p)&&knownPLZ[p]&&key(knownPLZ[p])!==key(o)){
+     const ortSoll=knownPLZ[p];
+     const plzAlternativen=plzCandidatesForOrt(o);
+     findings.push({
+       row:ri+2,col:plz,type:"PLZ/Ort",
+       msg:`PLZ ${p} gehört in der Prüfliste zu "${ortSoll}", eingetragen ist aber "${o}".`,
+       why:`PLZ und Ort widersprechen sich. Bitte entscheiden, welcher Wert aus der Originalquelle korrekt ist.`,
+       plzCol:plz,ortCol:ort,suggestedOrt:ortSoll,plzAlternativen
+     });
+   }
+ });
+ // entity + duplicate-key graph
+ const edges=[...dupPairs];
+ for(let a=0;a<R.length;a++)for(let b=a+1;b<R.length;b++){
+   const e=entityPair(R[a],R[b],H);
+   const d=nonIdDuplicatePair(R[a],R[b],H,t.state.types);
+   if(e.qualifies || d.qualifies){
+     edges.push([a+2,b+2]);
+     if(d.qualifies && !findings.some(f=>f.type==="Duplikat" && f.pair?.[0]===a+2 && f.pair?.[1]===b+2)){
+       findings.push({
+         row:b+2,col:0,type:"Duplikat",
+         msg:`Datensatz ${a+1} und ${b+1} sind in den fachlichen Feldern zu ${Math.round(d.ratio*100)} % gleich/ähnlich.`,
+         why:"Schlüssel/ID werden bei dieser Dublettenprüfung bewusst nicht als fachlicher Unterschied gewertet.",
+         pair:[a+2,b+2]
+       });
+     }
+   }
+ }
+ const parent={};const find=x=>{parent[x]??=x;return parent[x]===x?x:(parent[x]=find(parent[x]))};const union=(a,b)=>{a=find(a);b=find(b);if(a!==b)parent[b]=a};edges.forEach(e=>union(e[0],e[1]));const gs={};edges.flat().forEach(x=>(gs[find(x)]??=[]).push(x));const groups=Object.values(gs).map(g=>[...new Set(g)]).filter(g=>g.length>1).map(m=>{
+   const rows=m.map(x=>t.matrix[x-1]);
+   return {members:m,row:goldenGroup(rows,H,t.state.types)};
+ });
+ groups.forEach(g=>{
+   if(!findings.some(f=>f.type==="Golden-Record-Kandidat" && f.pair?.[0]===g.members[0] && f.pair?.[1]===g.members[1])){
+     findings.push({
+       row:g.members[1],col:0,type:"Golden-Record-Kandidat",
+       msg:`${g.members.length} Datensätze gehören wahrscheinlich zusammen.`,
+       why:"DataCheck erkennt übereinstimmende bzw. sehr ähnliche Stammdaten und fasst sie unten als Golden-Record-Gruppe zusammen.",
+       pair:[g.members[0],g.members[1]]
+     });
+   }
+ });
+ t.state.findings=findings.filter((f,i)=>!t.state.ignored.includes(fingerprint(f)));t.state.groups=groups;t.state.clean=null;renderAll();
+}
+function fingerprint(f){return`${f.type}|${f.row}|${f.col}|${f.msg}`}
+function analyzeAll(){
+ pushUndo("Alle Tabellen analysieren");
+ const keep=current>=0?current:0;
+ for(let i=0;i<tables.length;i++){current=i;analyzeCurrent(false);}
+ current=tables.length?Math.min(keep,tables.length-1):-1;
+ renderSources();renderAll();updateSchemaPrompt();
+ $("status").textContent=`✓ ${tables.length} Tabellen geprüft.${tables.length>1?" Schema-Mapping kann separat geprüft werden.":""}`;
+}
+
+function renderSources(){
+ $("kTables").textContent=tables.length;$("kRows").textContent=tables.reduce((s,t)=>s+Math.max(0,t.matrix.length-1),0);$("kIssues").textContent=tables.reduce((s,t)=>s+t.state.findings.length,0);$("kGroups").textContent=tables.reduce((s,t)=>s+t.state.groups.length,0);$("kAccepted").textContent=tables.filter(t=>t.state.committed).length;if($("kSchema"))$("kSchema").textContent=schemaCandidates.length;
+ $("sources").innerHTML=tables.length?tables.map((t,i)=>`<div class="source ${i===current?"active":""}"><div class=sourcehead><label><input type=checkbox ${t.selected?"checked":""} onchange="tables[${i}].selected=this.checked"> <b>${esc(t.name)}</b>${t.schemaUnified?` <span class="badge" style="background:#dff6ee">vereinheitlicht</span>`:""}</label><span class=badge>${Math.max(0,t.matrix.length-1)} Zeilen</span></div><small>${esc(t.source)}</small>${t.state.committed?`<div style="margin-top:5px"><span class="badge" style="background:#dff6ee">✓ übernommen · ${t.state.committed.length-1} Zeilen</span></div>`:""}<div class=srcactions><button class=secondary onclick="selectTable(${i})">Öffnen</button><button class=secondary onclick="analyzeTable(${i})">Prüfen</button></div></div>`).join(""):"Noch keine Daten geladen.";
+}
+function selectTable(i){
+ current=i;
+ if($("cleanPanel"))$("cleanPanel").style.display="none";
+ if($("clean"))$("clean").innerHTML="";
+ renderSources();
+ renderAll();
+}
+function analyzeTable(i){
+ current=i;
+ if($("cleanPanel"))$("cleanPanel").style.display="none";
+ if($("clean"))$("clean").innerHTML="";
+ analyzeCurrent();
+ renderSources();
+}
+function renderEmpty(){
+ if($("profiles"))$("profiles").innerHTML="";
+ if($("table"))$("table").innerHTML='<div class=muted style="padding:18px">Datei laden.</div>';
+ if($("suggest"))$("suggest").textContent="Noch keine Analyse.";
+ if($("mergePanel"))$("mergePanel").style.display="none";
+ if($("tableTitle"))$("tableTitle").textContent="Datenvorschau";
+ if($("tableMeta"))$("tableMeta").textContent="Keine Tabelle";
+ if($("fileNameDisplay"))$("fileNameDisplay").textContent="";
+ if($("exampleDisplay"))$("exampleDisplay").style.display="none";
+}
+
+function renderAll(){
+ const t=currentTable();if(!t)return renderEmpty();
+ const H=t.matrix[0]||[],R=t.matrix.slice(1);
+ if($("tableTitle"))$("tableTitle").textContent=t.name;
+ if($("tableMeta"))$("tableMeta").textContent=`${R.length} Datensätze`;
+ if($("fileNameDisplay"))$("fileNameDisplay").textContent=`Datei: ${t.source}`;
+ if($("exampleDisplay")){
+   if(activeExample){$("exampleDisplay").textContent=`Beispiel: ${activeExample}`;$("exampleDisplay").style.display="inline-block";}
+   else $("exampleDisplay").style.display="none";
+ }
+ if($("commitHint"))$("commitHint").textContent=t.state.committed?`✓ Dieses Blatt wurde bereits übernommen (${t.state.committed.length-1} Datensätze). Änderungen können erneut übernommen werden.`:"Prüfen und anschließend dieses Tabellenblatt übernehmen.";
+ if(t.schemaUnified){
+   const mi=validateUnifiedMapping(t);
+   if(mi.length && $("fileNameDisplay"))$("fileNameDisplay").textContent+=` · Mapping prüfen: ${mi.join(", ")}`;
+ }
+ $("profiles").innerHTML=H.map((h,i)=>`<div class=profile><b>${esc(h)}</b><br><span class=badge>${esc(t.state.types[i]||"")}</span><br><small>${esc(R[0]?.[i]||"")} · ${esc(R[1]?.[i]||"")}</small></div>`).join("");
+ renderTable();renderFindings();renderGroups();renderHistory();renderSources();
+ if($("cleanPanel") && $("cleanPanel").style.display!=="none"){
+   renderCleanPreview(t);
+ }
+}
+function visibleRows(){
+ const t=currentTable(),R=t.matrix.slice(1),mode=$("filter").value,problem=new Set(t.state.findings.filter(f=>f.row>0).map(f=>f.row)),dups=new Set(t.state.groups.flatMap(g=>g.members)),unres=new Set(t.state.groups.filter(g=>g.row.some(x=>x.conflict)).flatMap(g=>g.members));
+ return R.map((r,i)=>({r,row:i+2})).filter(x=>mode==="all"||mode==="problems"&&problem.has(x.row)||mode==="duplicates"&&dups.has(x.row)||mode==="unresolved"&&unres.has(x.row));
+}
+function renderTable(){const t=currentTable();if(!t)return;const H=t.matrix[0]||[],rows=visibleRows(),prob=new Set(t.state.findings.filter(f=>f.row>0).map(f=>f.row)),dup=new Set(t.state.groups.flatMap(g=>g.members));$("table").innerHTML="<table><thead><tr>"+H.map(h=>`<th>${esc(h)}</th>`).join("")+"</tr></thead><tbody>"+rows.map(x=>`<tr class="${dup.has(x.row)?"duplicate":prob.has(x.row)?"problem":""}">`+H.map((_,i)=>`<td>${esc(x.r[i]??"")}</td>`).join("")+"</tr>").join("")+"</tbody></table>"}
+function renderFindings(){
+ const t=currentTable();if(!t)return;
+ const issues=t.state.findings.length?t.state.findings.map((f,k)=>`<div class="issue bad"><b>${esc(f.type)}</b>${f.row?` · Datensatz ${f.row-1}`:""}: ${esc(f.msg)}${f.why?`<div class=explain><b>Warum?</b> ${esc(f.why)}</div>`:""}<div class=actionrow>
+${f.type==="PLZ/Ort"&&f.suggestedOrt?`<button class=primary onclick="applyPlzOrtSuggestion(${k},'ort','${esc(f.suggestedOrt).replace(/'/g,"&#39;")}')">Ort übernehmen: ${esc(f.suggestedOrt)}</button>`:""}
+${f.type==="PLZ/Ort"&&Array.isArray(f.plzAlternativen)&&f.plzAlternativen.length?f.plzAlternativen.map(p=>`<button class=secondary onclick="applyPlzOrtSuggestion(${k},'plz','${esc(p)}')">PLZ übernehmen: ${esc(p)}</button>`).join(""):""}
+${f.suggestion?`<button class=primary onclick="applySuggestion(${k})">Vorschlag übernehmen</button>`:""}
+${f.type==="Schreibvariante"?`<button class=primary onclick="applyVariant(${k})">Für alle übernehmen: ${esc(f.to)}</button>`:""}
+${f.row?`<button class=secondary onclick="editFinding(${k})">Editieren</button>`:""}
+<button class=secondary onclick="ignoreFinding(${k})">Ignorieren</button>
+</div></div>`).join(""):"";
+ const schema=schemaSuggestionHtml(t);
+ $("suggest").innerHTML=(schema+issues)||'<div class="issue good">Keine typischen Auffälligkeiten erkannt.</div>';
+}
+function renderGroups(){const t=currentTable();if(!t||!t.state.groups.length){$("mergePanel").style.display="none";return}$("mergePanel").style.display="block";const H=t.matrix[0];$("mergeList").innerHTML=t.state.groups.map((g,k)=>{const rows=g.members.map(x=>t.matrix[x-1]);const src=rows.map((r,j)=>`<div class=col><b>Datensatz ${g.members[j]-1}</b>`+H.map((h,i)=>`<div class=field><b>${esc(h)}</b><span>${esc(r[i]??"")}</span></div>`).join("")+"</div>").join("");const gr=H.map((h,i)=>{const item=g.row[i],vals=[...new Set(rows.map(r=>n(r[i])).filter(Boolean))];return`<div class="field ${item.conflict?"conflict":""}"><b>${esc(h)}</b><span><input id="g_${k}_${i}" value="${esc(item.v)}"><small>${esc(item.why)}</small>${vals.length>1?`<div class=actionrow>${vals.map(v=>`<button class=secondary onclick="setGolden(${k},${i},'${esc(v).replace(/'/g,"&#39;")}')">${esc(v)}</button>`).join("")}</div>`:""}</span></div>`}).join("");return`<div class=merge><div class=mergehead><b>Golden-Record-Gruppe ${k+1} · ${g.members.length} Datensätze</b><button class=primary onclick="acceptGroup(${k})">Golden Record übernehmen</button></div><div class=cols>${src}<div class="col gold"><b>Gemeinsamer Golden Record · editierbar</b>${gr}</div></div></div>`}).join("")}
+function renderHistory(){const t=currentTable();$("history").innerHTML=t&&t.state.history.length?t.state.history.slice().reverse().map(x=>`<div>${esc(x)}</div>`).join(""):"Noch keine Änderungen."}
+
+function editFinding(k){const t=currentTable(),f=t.state.findings[k];if(!f||!f.row)return;pushUndo("Feld bearbeiten");const old=t.matrix[f.row-1][f.col],v=prompt(`${t.matrix[0][f.col]} bearbeiten`,old);if(v===null)return;t.matrix[f.row-1][f.col]=v;t.state.committed=null;t.state.committedAt=null;t.state.history.push(`Datensatz ${f.row-1}: ${t.matrix[0][f.col]} "${old}" → "${v}"`);analyzeCurrent(false)}
+function applySuggestion(k){const t=currentTable(),f=t.state.findings[k];if(!f?.suggestion)return;pushUndo("Vorschlag");const old=t.matrix[f.row-1][f.col];t.matrix[f.row-1][f.col]=f.suggestion;t.state.committed=null;t.state.committedAt=null;t.state.history.push(`Vorschlag übernommen: "${old}" → "${f.suggestion}"`);analyzeCurrent(false)}
+function applyVariant(k){const t=currentTable(),f=t.state.findings[k];pushUndo("Variante für alle");let c=0;for(let r=1;r<t.matrix.length;r++)if(n(t.matrix[r][f.col])===f.from){t.matrix[r][f.col]=f.to;c++}t.state.committed=null;t.state.committedAt=null;t.state.history.push(`${c} Wert(e) "${f.from}" → "${f.to}" vereinheitlicht`);analyzeCurrent(false)}
+function ignoreFinding(k){const t=currentTable(),f=t.state.findings[k];pushUndo("Meldung ignorieren");t.state.ignored.push(fingerprint(f));t.state.history.push(`Meldung ignoriert: ${f.type} ${f.msg}`);analyzeCurrent(false)}
+function setGolden(k,i,v){const x=$(`g_${k}_${i}`);if(x)x.value=v.replace(/&#39;/g,"'")}
+function acceptGroup(k){const t=currentTable(),g=t.state.groups[k],row=t.matrix[0].map((_,i)=>$(`g_${k}_${i}`)?.value??"");const unresolved=t.state.types.findIndex((x,i)=>x==="PLZ"&&g.row[i].conflict&&!n(row[i]));if(unresolved>=0){alert("Bitte zuerst den PLZ-Konflikt entscheiden.");return}pushUndo("Golden Record");t.state.accepted=t.state.accepted.filter(a=>!a.members.some(x=>g.members.includes(x)));t.state.accepted.push({members:g.members,row});t.state.committed=null;t.state.committedAt=null;t.state.history.push(`Golden Record aus Datensätzen ${g.members.map(x=>x-1).join(", ")} bestätigt`);showCleanAndJump()}
+
+
+function commitCurrentTable(){
+ const t=currentTable(); if(!t)return;
+ pushUndo("Bereinigte Daten übernehmen");
+ const clean=t.state.clean||buildClean(t);
+ t.state.committed=deep(clean);
+ t.state.committedAt=new Date().toISOString();
+ t.state.history.push(`Bereinigtes Tabellenblatt "${t.name}" übernommen · ${Math.max(0,clean.length-1)} Datensätze`);
+ renderHistory();renderSources();
+ $("status").textContent=`✓ "${t.name}" übernommen. ${tables.filter(x=>x.state.committed).length} von ${tables.length} Tabellenblättern sind fertig.`;
+ const next=tables.findIndex((x,i)=>i>current&&!x.state.committed);
+ if(next>=0){
+   setTimeout(()=>{
+     current=next;
+     if($("cleanPanel"))$("cleanPanel").style.display="none";
+     if($("clean"))$("clean").innerHTML="";
+     renderSources();renderAll();
+     $("status").textContent+=` Nächstes Blatt: "${tables[next].name}". Bitte dort wieder "Bereinigung ansehen" und anschließend "Bereinigte Daten übernehmen" verwenden.`;
+   },250);
+ }else{
+   $("status").textContent+=` Alle Blätter sind übernommen. Jetzt "Excel mit allen Blättern speichern" klicken.`;
+ }
+}
+function committedOrCurrent(t){
+ return t.state.committed ? deep(t.state.committed) : (t.state.clean ? deep(t.state.clean) : buildClean(t));
+}
+function safeSheetName(name,used){
+ let nme=String(name||"Tabelle").replace(/[\\/?*\[\]:]/g,"_").slice(0,31)||"Tabelle";
+ let base=nme,c=2;
+ while(used.has(nme.toLowerCase())){const suf="_"+c++;nme=(base.slice(0,31-suf.length)+suf);}
+ used.add(nme.toLowerCase());return nme;
+}
+function workbookExportName(){
+ const sources=[...new Set(tables.map(t=>baseFileName(t.source)).filter(Boolean))];
+ const base=sources.length===1?sources[0]:(sources[0]||"DATENTRA_DataCheck");
+ return `${base}_${exportStamp()}_BereinigtVonDataCheck.xlsx`;
+}
+function tablesForFinalExport(){
+ const consumed=new Set();
+ tables.filter(t=>t.schemaUnified&&Array.isArray(t.unifiedFrom)).forEach(t=>t.unifiedFrom.forEach(id=>consumed.add(id)));
+ return tables.filter(t=>t.schemaUnified || !consumed.has(t.id));
+}
+function saveAcceptedWorkbook(){
+ if(!tables.length)return alert("Keine Tabellen geladen.");
+ const exportTables=tablesForFinalExport();
+ const notCommitted=exportTables.filter(t=>!t.state.committed);
+ if(notCommitted.length){
+   const names=notCommitted.map(t=>t.name).join(", ");
+   if(!confirm(`${notCommitted.length} Ergebnistabelle(n) sind noch nicht mit "Bereinigte Daten übernehmen" bestätigt:\n\n${names}\n\nTrotzdem speichern? Es wird der aktuelle Bereinigungsstand verwendet.`))return;
+ }
+ if(typeof XLSX==="undefined")return alert("Excel-Export benötigt den Tabellenleser.");
+ const wb=XLSX.utils.book_new(),used=new Set();
+ exportTables.forEach((t,i)=>{
+   const data=committedOrCurrent(t);
+   const sheetName=safeSheetName(t.name||("Tabelle"+(i+1)),used);
+   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(data),sheetName);
+ });
+ XLSX.writeFile(wb,workbookExportName());
+ $("status").textContent=`✓ Fertige Excel gespeichert: ${workbookExportName()} · ${exportTables.length} Tabellenblatt/-blätter. Vereinheitlichte Quellblätter wurden nicht zusätzlich exportiert.`;
+}
+function buildClean(t){const remove=new Set();t.state.accepted.forEach(a=>a.members.forEach(x=>remove.add(x-1)));return[t.matrix[0],...t.matrix.slice(1).filter((_,i)=>!remove.has(i+1)),...t.state.accepted.map(a=>a.row)]}
+function renderCleanPreview(t){
+ if(!t)return;
+ t.state.clean=buildClean(t);
+ if($("cleanSheetTitle"))$("cleanSheetTitle").textContent=`Bereinigungsvorschau – ${t.name}`;
+ if($("cleanFileTitle"))$("cleanFileTitle").textContent=`Datei: ${t.source}`;
+ if($("clean"))$("clean").innerHTML="<table><thead><tr>"+t.state.clean[0].map(x=>`<th>${esc(x)}</th>`).join("")+"</tr></thead><tbody>"+t.state.clean.slice(1).map(r=>"<tr>"+r.map(v=>`<td>${esc(v)}</td>`).join("")+"</tr>").join("")+"</tbody></table>";
+}
+function showCleanAndJump(){
+ const t=currentTable();if(!t)return;
+ $("cleanPanel").style.display="block";
+ renderCleanPreview(t);
+ setTimeout(()=>$("cleanPanel").scrollIntoView({behavior:"smooth",block:"start"}),50);
+}
+
+function openRules(){const t=currentTable();if(!t)return alert("Bitte zuerst eine Tabelle laden.");$("rulesPanel").style.display="block";const rules=t.state.rules;$("rulesEditor").innerHTML=`<div class=profileeditor><div class=head>Spalte</div><div class=head>Typ</div><div class=head>Pflicht</div><div class=head>Eindeutig</div><div class=head>Min.</div><div class=head>Max.</div>${t.matrix[0].map((h,i)=>{const r=rules[h]||{};return`<div><b>${esc(h)}</b></div><div><select id=r_t_${i}>${["Text","Kategorie","ID","PLZ","Ort","E-Mail","Telefon","IBAN","USt-ID","Datum","Zahl"].map(x=>`<option ${x===(r.type||t.state.types[i])?"selected":""}>${x}</option>`).join("")}</select></div><label><input id=r_r_${i} type=checkbox ${r.required?"checked":""}></label><label><input id=r_u_${i} type=checkbox ${r.unique?"checked":""}></label><input id=r_min_${i} value="${esc(r.min||"")}"><input id=r_max_${i} value="${esc(r.max||"")}">`}).join("")}</div>`;$("rulesPanel").scrollIntoView({behavior:"smooth"})}
+function applyRules(){const t=currentTable();pushUndo("Profilregeln");t.matrix[0].forEach((h,i)=>t.state.rules[h]={type:$(`r_t_${i}`).value,required:$(`r_r_${i}`).checked,unique:$(`r_u_${i}`).checked,min:$(`r_min_${i}`).value,max:$(`r_max_${i}`).value});t.state.committed=null;t.state.committedAt=null;analyzeCurrent(false)}
+function refreshProfiles(){const sel=$("profile"),base='<option value=auto>Automatisch</option>';sel.innerHTML=base;Object.keys(localStorage).filter(k=>k.startsWith("datentra_profile_")).sort().forEach(k=>{const n=k.slice(17);sel.insertAdjacentHTML("beforeend",`<option value="${esc(n)}">${esc(n)}</option>`)})}
+function saveProfile(){const t=currentTable();if(!t)return;const name=prompt("Profilname","Kundenimport ERP");if(!name)return;localStorage.setItem("datentra_profile_"+name,JSON.stringify(t.state.rules));refreshProfiles();$("profile").value=name;t.state.history.push(`Prüfprofil "${name}" gespeichert`);renderHistory()}
+$("profile").onchange=()=>{const t=currentTable(),v=$("profile").value;if(!t||v==="auto")return;const raw=localStorage.getItem("datentra_profile_"+v);if(raw){pushUndo("Profil anwenden");t.state.rules=JSON.parse(raw);analyzeCurrent(false)}};refreshProfiles();
+
+function saveProject(){const payload={format:"DATENTRA-DATACHECK",version:23,saved:new Date().toISOString(),tables,current};downloadBlob(`DataCheck_Projekt_${exportStamp()}.datentra`,new Blob([JSON.stringify(payload)],{type:"application/json"}))}
+function loadProjectText(text){const o=JSON.parse(text);if(o.format!=="DATENTRA-DATACHECK")throw Error("Keine gültige DATENTRA-Projektdatei.");pushUndo("Projekt öffnen");tables=o.tables||[];current=o.current??0;renderSources();renderAll();$("status").textContent=`✓ Projekt geladen · ${tables.length} Tabellen.`}
+function downloadBlob(name,blob){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+
+function semanticColumnClass(header, values=[]){
+ const h=key(header);
+ if(/kundennr|kundennummer|kundenid|customerid|clientid/.test(h))return"Kunden-ID";
+ if(/lieferantennr|lieferantennummer|lieferantenid|vendorid|supplierid/.test(h))return"Lieferanten-ID";
+ if(/artikelnummer|artikelnr|artikelid|productid|sku/.test(h))return"Artikel-ID";
+ if(/firma|unternehmen|unternehm|unterneh.*men|firmenname|kundenname|lieferantenname|company|organisation/.test(h))return"Firma";
+ if(/postleitzahl|postalcode|postcode|zipcode|^plz$/.test(h))return"PLZ";
+ if(/stadt|city|^ort$|wohnort/.test(h))return"Ort";
+ if(/mailadresse|emailadresse|email|e-mail|mail/.test(header.toLowerCase()))return"E-Mail";
+ if(/telefon|phone|tel|mobil|handy/.test(h))return"Telefon";
+ if(/straße|strasse|street|anschrift/.test(header.toLowerCase()))return"Straße";
+ if(/iban/.test(h))return"IBAN";
+ if(/ustid|umsatzsteuer|vatid/.test(h))return"USt-ID";
+ if(/datum|date/.test(h))return"Datum";
+ if(/preis|betrag|umsatz|bestand|menge|quantity|stock/.test(h))return"Zahl";
+
+ const vals=values.map(n).filter(Boolean).slice(0,80);
+ if(vals.length){
+   const rate=fn=>vals.filter(fn).length/vals.length;
+   if(rate(v=>/^[0-9]{5}$/.test(v))>.75)return"PLZ";
+   if(rate(v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v))>.65)return"E-Mail";
+   if(rate(v=>/^DE\d{20}$/.test(v.replace(/\s/g,"")))>.65)return"IBAN";
+   if(rate(v=>/^DE\d{9}$/.test(v.replace(/\s/g,"")))>.65)return"USt-ID";
+   if(rate(v=>/^[+()0-9 /.-]{6,}$/.test(v) && /\d/.test(v))>.75)return"Telefon";
+ }
+ return"";
+}
+function schemaColumnScore(h1,v1,h2,v2){
+ const c1=semanticColumnClass(h1,v1),c2=semanticColumnClass(h2,v2);
+ if(c1&&c2&&c1===c2)return 1;
+ const hs=headerSimilarity(h1,h2);
+ if(c1&&c2&&c1!==c2)return Math.min(hs,.45);
+ if((c1||c2)&&hs>.72)return Math.max(hs,.82);
+ return hs;
+}
+function buildSchemaMapping(t1,t2){
+ const h1=t1.matrix[0]||[],h2=t2.matrix[0]||[];
+ const r1=t1.matrix.slice(1),r2=t2.matrix.slice(1);
+ const used=new Set(),matches=[];
+ h1.forEach((a,i)=>{
+   let best={j:-1,score:0};
+   h2.forEach((b,j)=>{
+     if(used.has(j))return;
+     const s=schemaColumnScore(a,r1.map(r=>r[i]),b,r2.map(r=>r[j]));
+     if(s>best.score)best={j,score:s};
+   });
+   if(best.j>=0&&best.score>=.68){
+     used.add(best.j);
+     matches.push({
+       a:i,b:best.j,
+       left:h1[i],right:h2[best.j],
+       target:h1[i],
+       score:best.score,
+       semantic:semanticColumnClass(h1[i],r1.map(r=>r[i]))||semanticColumnClass(h2[best.j],r2.map(r=>r[best.j]))||""
+     });
+   }
+ });
+ const denom=Math.max(h1.length,h2.length,1);
+ const coverage=matches.length/denom;
+ const confidence=matches.length?matches.reduce((s,m)=>s+m.score,0)/matches.length:0;
+ return{matches,coverage,confidence};
+}
+
+function updateSchemaPrompt(){
+ const p=$("schemaPrompt"); if(!p)return;
+ const candidatesForCheck=tables.filter(t=>!t.schemaUnified&&!t.schemaConsumedBy);
+ if(candidatesForCheck.length<2){
+   p.style.display="none"; p.innerHTML=""; return;
+ }
+ if(schemaCandidates.length){
+   p.style.display="block";
+   p.innerHTML=`<b>Schema-Mapping-Vorschlag erkannt.</b><br>${schemaCandidates.length} passende Tabellenkombination(en) gefunden. Die Details stehen rechts unter „Prüfung & Vorschläge“.`;
+ }else{
+   p.style.display="block";
+   p.innerHTML=`<b>${candidatesForCheck.length} Tabellen erkannt.</b><br>Möchten Sie prüfen, ob Tabellen dieselbe Struktur mit unterschiedlichen Spaltennamen enthalten?
+   <div class="actionrow"><button class="primary" onclick="checkSchemaMappings()">🔎 Auf Schema-Mapping prüfen</button></div>`;
+ }
+}
+function checkSchemaMappings(){
+ detectSchemaMappings();
+ renderSources();
+ renderAll();
+ updateSchemaPrompt();
+ if(schemaCandidates.length){
+   $("status").textContent=`✓ Schema-Mapping-Prüfung abgeschlossen: ${schemaCandidates.length} Vorschlag/Vorschläge erkannt.`;
+   setTimeout(()=>{const s=$("suggest");if(s)s.scrollIntoView({behavior:"smooth",block:"start"});},80);
+ }else{
+   $("status").textContent="✓ Schema-Mapping-Prüfung abgeschlossen: keine ausreichend ähnlichen Tabellenstrukturen erkannt.";
+ }
+}
+function detectSchemaMappings(){
+ schemaCandidates=[];
+ tables.forEach(t=>t.state.schemaSuggestions=[]);
+ for(let i=0;i<tables.length;i++)for(let j=i+1;j<tables.length;j++){
+   const a=tables[i],b=tables[j];
+   if(!a.matrix?.length||!b.matrix?.length)continue;
+   if(a.schemaUnified||b.schemaUnified||a.schemaConsumedBy||b.schemaConsumedBy)continue;
+   const m=buildSchemaMapping(a,b);
+   const minMatches=Math.min(3,Math.min(a.matrix[0].length,b.matrix[0].length));
+   if(m.matches.length>=minMatches && m.coverage>=.6 && m.confidence>=.78){
+     const cand={i,j,...m};
+     schemaCandidates.push(cand);
+     a.state.schemaSuggestions.push(cand);
+     b.state.schemaSuggestions.push(cand);
+   }
+ }
+ if($("kSchema"))$("kSchema").textContent=schemaCandidates.length;
+ updateSchemaPrompt();
+}
+function schemaSuggestionHtml(t){
+ const list=t?.state?.schemaSuggestions||[];
+ if(!list.length)return"";
+ return list.map(c=>{
+   const other=c.i===current?tables[c.j]:tables[c.i];
+   const pairs=c.matches.map(m=>`<span class="badge" style="margin:2px">${esc(m.left)} ↔ ${esc(m.right)}</span>`).join(" ");
+   return `<div class="issue good">
+     <b>Schema-Mapping erkannt</b><br>
+     Die Tabellen <b>${esc(t.name)}</b> und <b>${esc(other.name)}</b> enthalten wahrscheinlich dieselbe Datenstruktur mit unterschiedlichen Spaltenbezeichnungen.
+     <div class="explain"><b>${c.matches.length} von ${Math.max(t.matrix[0].length,other.matrix[0].length)} Spalten</b> zugeordnet · Sicherheit ${Math.round(c.confidence*100)} %.</div>
+     <div style="margin-top:7px">${pairs}</div>
+     <div class="actionrow">
+       <button class="primary" onclick="openSchemaSuggestion(${c.i},${c.j})">Mapping ansehen</button>
+       <button class="secondary" onclick="openSchemaSuggestion(${c.i},${c.j})">Tabellen zusammenführen</button>
+       <button class="secondary" onclick="ignoreSchemaSuggestion(${c.i},${c.j})">Ignorieren</button>
+     </div>
+   </div>`;
+ }).join("");
+}
+function openSchemaSuggestion(i,j){
+ tables.forEach(t=>t.selected=false);
+ tables[i].selected=true;tables[j].selected=true;
+ current=i;
+ renderSources();renderAll();
+ mergeSelectedTables();
+ $("status").textContent=`✓ Schema-Mapping erkannt: "${tables[i].name}" ↔ "${tables[j].name}". Zuordnung prüfen und anschließend "Mapping übernehmen & Tabellen vereinheitlichen" klicken.`;
+}
+function ignoreSchemaSuggestion(i,j){
+ const keyPair=[i,j].sort((a,b)=>a-b).join(":");
+ schemaCandidates=schemaCandidates.filter(c=>[c.i,c.j].sort((a,b)=>a-b).join(":")!==keyPair);
+ tables.forEach(t=>{t.state.schemaSuggestions=(t.state.schemaSuggestions||[]).filter(c=>[c.i,c.j].sort((a,b)=>a-b).join(":")!==keyPair)});
+ renderFindings();
+}
+function headerSimilarity(a,b){
+ const ka=key(a),kb=key(b);
+ const groups=[
+  ["kundennr","kundennummer","kundenid","customerid","clientid"],
+  ["lieferantennr","lieferantennummer","lieferantenid","supplierid","vendorid"],
+  ["artikelnummer","artikelnr","artikelid","productid","sku"],
+  ["firma","unternehmen","unternehxxxxmen","unternehm","firmenname","company","organisation"],
+  ["plz","postleitzahl","postalcode","postcode","zipcode"],
+  ["ort","stadt","city"],
+  ["email","emailadresse","mailadresse","mail"],
+  ["telefon","tel","phone","mobil","handy"],
+  ["strasse","straße","street","anschrift"]
+ ];
+ if(ka===kb)return 1;
+ if(groups.some(g=>g.includes(ka)&&g.includes(kb)))return .97;
+ return lev(ka,kb);
+}
+function mergeSelectedTables(){const sel=tables.map((t,i)=>({t,i})).filter(x=>x.t.selected);if(sel.length<2)return alert("Bitte mindestens zwei Tabellen auswählen.");pendingMerge={indices:sel.map(x=>x.i),base:sel[0].i,maps:{}};const baseH=tables[pendingMerge.base].matrix[0];$("mappingPanel").style.display="block";$("mappingEditor").innerHTML=`<div class=mapping><div class=head>Zielspalte</div><div class=head>Quelle</div><div class=head>automatischer Treffer</div>`+sel.slice(1).map(x=>{const H=x.t.matrix[0];return baseH.map((h,bi)=>{const scores=H.map((hh,j)=>({j,s:schemaColumnScore(h,base.matrix.slice(1).map(r=>r[bi]),hh,x.t.matrix.slice(1).map(r=>r[j]))})).sort((a,b)=>b.s-a.s),best=scores[0];return`<div>${esc(h)}<br><small class=muted>${esc(semanticColumnClass(h,base.matrix.slice(1).map(r=>r[bi]))||"")}</small></div><div>${esc(x.t.name)}</div><div><select id="map_${x.i}_${bi}"><option value="-1">nicht übernehmen</option>${H.map((hh,j)=>`<option value=${j} ${j===best.j&&best.s>.6?"selected":""}>${esc(hh)}${j===best.j?` · ${Math.round(best.s*100)} %`:""}</option>`).join("")}</select></div>`}).join("")}).join("")+`</div>`;$("mappingPanel").scrollIntoView({behavior:"smooth"})}
+
+
+function looksLikeCompanyValue(v){
+ const s=n(v);
+ return /(?:gmbh|mbh|ag|kg|ohg|ug|gbr|e\.?\s*k\.?|gesellschaft|maschinenbau|technik|service|logistik|handel|werkzeug)/i.test(s);
+}
+function resolveSourceColumn(targetHeader, baseValues, srcHeaders, srcRows, preferred=-1){
+ // Preferred mapping from the user's dropdown first, but only if it is plausible.
+ if(Number.isInteger(preferred) && preferred>=0 && preferred<srcHeaders.length){
+   const s=schemaColumnScore(targetHeader,baseValues,srcHeaders[preferred],srcRows.map(r=>r[preferred]));
+   if(s>=.55)return preferred;
+ }
+
+ let best={j:-1,score:0};
+ srcHeaders.forEach((srcHeader,j)=>{
+   let s=schemaColumnScore(targetHeader,baseValues,srcHeader,srcRows.map(r=>r[j]));
+
+   // Very tolerant imported-header aliases.
+   const th=key(targetHeader), sh=key(srcHeader);
+   if(/firma|unternehmen|firmenname/.test(th) && (/firma/.test(sh)||/unterneh.*men/.test(sh)||/^unterneh/.test(sh))) s=Math.max(s,.99);
+   if(/kundennr|kundennummer|kundenid/.test(th) && /kunden.*(?:nr|nummer|id)/.test(sh)) s=Math.max(s,.99);
+   if(/plz|postleitzahl/.test(th) && /plz|postleitzahl/.test(sh)) s=Math.max(s,.99);
+   if(/ort|stadt/.test(th) && /ort|stadt/.test(sh)) s=Math.max(s,.99);
+   if(/email|mail/.test(th) && /email|mail/.test(sh)) s=Math.max(s,.99);
+
+   // Content fallback: company column can be inferred from typical company values.
+   if(/firma|unternehmen|firmenname/.test(th)){
+     const vals=srcRows.map(r=>n(r[j])).filter(Boolean);
+     if(vals.length){
+       const companyRate=vals.filter(looksLikeCompanyValue).length/vals.length;
+       if(companyRate>=.5)s=Math.max(s,.93);
+     }
+   }
+
+   if(s>best.score)best={j,score:s};
+ });
+ return best.score>=.60?best.j:-1;
+}
+function confirmMergeTables(){
+ const pm=pendingMerge;if(!pm)return;
+ pushUndo("Schema-Mapping übernehmen");
+
+ const sourceIndices=pm.indices.slice();
+ const base=tables[pm.base];
+ const targetHeaders=base.matrix[0].slice();
+ const unifiedRows=[];
+
+ // Base rows first: already in target schema.
+ base.matrix.slice(1).forEach(r=>{
+   const nr=Array(targetHeaders.length).fill("");
+   targetHeaders.forEach((_,i)=>nr[i]=r[i]??"");
+   unifiedRows.push(nr);
+ });
+
+ // Remaining selected source tables: map each source column into target schema.
+ sourceIndices.filter(i=>i!==pm.base).forEach(i=>{
+   const src=tables[i];
+   const srcHeaders=src.matrix[0]||[];
+   const srcRows=src.matrix.slice(1);
+
+   // Build a complete target->source mapping.
+   const map=targetHeaders.map((targetHeader,bi)=>{
+     const el=$(`map_${i}_${bi}`);
+     const preferred=el?Number(el.value):-1;
+     return resolveSourceColumn(
+       targetHeader,
+       base.matrix.slice(1).map(r=>r[bi]),
+       srcHeaders,
+       srcRows,
+       preferred
+     );
+   });
+
+   srcRows.forEach(r=>{
+     const nr=Array(targetHeaders.length).fill("");
+     targetHeaders.forEach((targetHeader,bi)=>{
+       const si=map[bi];
+       if(si>=0)nr[bi]=r[si]??"";
+
+       // Safety net for company/name field:
+       // if it is still empty, take the most likely company value from the source row.
+       if(!n(nr[bi]) && /firma|unternehmen|firmenname/i.test(targetHeader)){
+         let candidate=-1;
+         srcHeaders.forEach((h,j)=>{
+           if(candidate>=0)return;
+           if(/firma/i.test(h) || /unterneh.*men/i.test(key(h)) || /^unterneh/i.test(key(h)))candidate=j;
+         });
+         if(candidate<0){
+           candidate=r.findIndex(v=>looksLikeCompanyValue(v));
+         }
+         if(candidate>=0)nr[bi]=r[candidate]??"";
+       }
+     });
+     unifiedRows.push(nr);
+   });
+ });
+
+ // Name based on the target data set.
+ const unifiedName=(base.name||"Daten").replace(/_System_[A-Z]$/i,"")+"_Bereinigt";
+ const unified=makeTable(base.source,unifiedName,[targetHeaders,...unifiedRows]);
+ unified.schemaUnified=true;
+ unified.schemaSourceNames=sourceIndices.map(i=>tables[i].name);
+ unified.selected=true;
+
+ // Mark source tables as consumed by this unified result.
+ sourceIndices.forEach(i=>{
+   tables[i].schemaConsumedBy=unified.id;
+   tables[i].selected=false;
+ });
+
+ tables.push(unified);
+ current=tables.length-1;
+ $("mappingPanel").style.display="none";
+
+ schemaCandidates=[];
+ tables.forEach(t=>t.state.schemaSuggestions=[]);
+
+ analyzeCurrent(false);
+ renderSources();
+ renderAll();
+ updateSchemaPrompt();
+
+ $("status").textContent=`✓ Schema-Mapping übernommen: ${sourceIndices.length} Tabellen wurden in "${unified.name}" vereinheitlicht. ${unifiedRows.length} Datensätze wurden übernommen. Unterschiedliche Spaltennamen wurden auf die Zielstruktur abgebildet.`;
+}
+
+function validateUnifiedMapping(t){
+ if(!t?.schemaUnified)return[];
+ const issues=[];
+ const H=t.matrix[0]||[];
+ const firm=H.findIndex(h=>/firma|unternehmen/i.test(h));
+ if(firm>=0){
+   const empty=t.matrix.slice(1).filter(r=>!n(r[firm])).length;
+   if(empty)issues.push(`${empty} Datensatz/Datensätze ohne Firmenwert nach Mapping`);
+ }
+ return issues;
+}
+function report(){const t=currentTable();if(!t)return;$("reportPanel").style.display="block";const counts={};t.state.findings.forEach(f=>counts[f.type]=(counts[f.type]||0)+1);$("report").innerHTML=`<p><b>Tabelle:</b> ${esc(t.name)}<br><b>Datensätze:</b> ${t.matrix.length-1}<br><b>Auffälligkeiten:</b> ${t.state.findings.length}<br><b>Golden-Record-Gruppen:</b> ${t.state.groups.length}<br><b>Bestätigte Golden Records:</b> ${t.state.accepted.length}</p>`+Object.entries(counts).map(([k,v])=>`<div>${esc(k)}: <b>${v}</b></div>`).join("")+`<h4>Änderungsprotokoll</h4>`+(t.state.history.map(x=>`<div>${esc(x)}</div>`).join("")||"Keine Änderungen.")}
+
+function exportCurrent(){const t=currentTable();if(!t)return;const data=t.state.clean||buildClean(t),fmt=$("exportFormat").value;if(fmt==="csv"){const sep=";";downloadBlob(exportBaseName(t)+".csv",new Blob([data.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(sep)).join("\n")],{type:"text/csv;charset=utf-8"}));return}if(fmt==="xml"){const H=data[0],body=data.slice(1).map(r=>"<Datensatz>"+H.map((h,i)=>`<${xmlTag(h)}>${xmlEsc(r[i])}</${xmlTag(h)}>`).join("")+"</Datensatz>").join("");downloadBlob(exportBaseName(t)+".xml",new Blob([`<?xml version="1.0" encoding="UTF-8"?><Daten>${body}</Daten>`],{type:"application/xml"}));return}if(typeof XLSX==="undefined")return alert("XLSX/ODS-Export benötigt den Tabellenleser.");const ws=XLSX.utils.aoa_to_sheet(data),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Bereinigt");XLSX.writeFile(wb,exportBaseName(t)+"."+(fmt==="ods"?"ods":"xlsx"),{bookType:fmt==="ods"?"ods":"xlsx"})}
+function exportAllXlsx(){if(typeof XLSX==="undefined")return alert("XLSX-Export benötigt den Tabellenleser.");const wb=XLSX.utils.book_new();tables.forEach((t,i)=>{const d=t.state.clean||buildClean(t),name=(t.name||("Tabelle"+(i+1))).replace(/[\\/?*\[\]:]/g,"_").slice(0,31);XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(d),name||("Tabelle"+(i+1)))});XLSX.writeFile(wb,`DATENTRA_Alle_Tabellen_${exportStamp()}_BereinigtVonDataCheck.xlsx`)}
+function xmlTag(s){let t=String(s||"Feld").replace(/[^A-Za-z0-9_.-]/g,"_");if(!/^[A-Za-z_]/.test(t))t="_"+t;return t}
+function xmlEsc(v){return String(v??"").replace(/[<>&'"]/g,m=>({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;",'"':"&quot;"}[m]))}
+
+
+async function loadTestCase(which){
+ if(!which)return;
+ $("testCaseSelect").value="";
+ try{
+   if(which==="email"){
+     const rows=[
+      ["Kundennr","Firma","E-Mail","Hinweis_Testfall"],
+      ["E1001","Alpha Maschinenbau GmbH","info@alpha-mb.de","gültig"],
+      ["E1002","Beta Logistik GmbH","kontakt@beta-logistik.de","gültig"],
+      ["E1003","Gamma Service KG","info @gamma-service.de","Leerzeichen vor @"],
+      ["E1004","Delta Elektro GmbH","office@delta-elektro","Domain-Endung fehlt"],
+      ["E1005","Epsilon Handel AG","verkauf.epsilon.de","@ fehlt"],
+      ["E1006","Zeta Metall GmbH","info@@zeta-metall.de","doppeltes @"],
+      ["E1007","Eta Technik GmbH","","fehlender Wert"],
+      ["E1008","Theta Bau KG","info@ theta-bau.de","Leerzeichen nach @"],
+      ["E1009","Iota Systems GmbH","service@iota systems.de","Leerzeichen in Domain"],
+      ["E1010","Kappa IT GmbH","support@kappa-it.de","gültig"],
+      ["E1011","Lambda GmbH","info@lambda..de","doppelter Punkt"],
+      ["E1012","Mueller Maschinenbau GmbH","info@mueller-mb.de","gültig"],
+      ["E1013","Müller Maschinenbau GmbH","info@mueller-mb.de","Duplikat/Schreibvariante Firma"],
+      ["E1014","Nu Consulting GmbH","info@nu-consulting.com","gültig"],
+      ["E1015","Xi Werkzeuge KG","info@xi-werkzeuge.de ","Leerzeichen am Ende"],
+      ["E1016","Omikron AG","info@omikron.de","gültig"],
+      ["E1017","Pi GmbH","@pi-gmbh.de","lokaler Teil fehlt"],
+      ["E1018","Rho GmbH","rho@.de","Domainname fehlt"],
+      ["E1019","Sigma GmbH","kontakt@sigma.de","gültig"],
+      ["E1020","Sigma GmbH","kontakt@sigma.de","exaktes Duplikat"]
+     ];
+     pushUndo("Testfall E-Mail");
+     tables=[makeTable("01_Email_Check_20_Datensaetze.xlsx","E-Mail_Check",rows)];
+     // Im E-Mail-Testfall ist die E-Mail bewusst Pflichtfeld: leer bleibt leer und wird als fehlender Wert gemeldet.
+     tables[0].state.rules["E-Mail"]={type:"E-Mail",required:true,unique:false,min:"",max:""};
+   }else if(which==="plz"){
+     const rows=[
+      ["Kundennr","Firma","PLZ","Ort","Hinweis_Testfall"],
+      ["P1001","Franken Technik GmbH","91126","Schwabach","gültig"],
+      ["P1002","Nürnberg Handel GmbH","90402","Nürnberg","gültig"],
+      ["P1003","Falschstadt GmbH","91126","Nürnberg","PLZ gehört zu Schwabach"],
+      ["P1004","Altstadt Service KG","90402","Schwabach","PLZ gehört zu Nürnberg"],
+      ["P1005","Fürth Werkzeug GmbH","90762","Fürth","gültig"],
+      ["P1006","Erlangen Systeme AG","91052","Erlangen","gültig"],
+      ["P1007","Roth Logistik GmbH","91154","Roth","gültig"],
+      ["P1008","München Consulting GmbH","80331","München","gültig"],
+      ["P1009","Berlin Digital GmbH","10115","Berlin","gültig"],
+      ["P1010","Hamburg Hafen GmbH","20095","Hamburg","gültig"],
+      ["P1011","Köln Media GmbH","50667","Köln","gültig"],
+      ["P1012","Frankfurt Finance AG","60311","Frankfurt am Main","gültig"],
+      ["P1013","Stuttgart Technik GmbH","70173","Stuttgart","gültig"],
+      ["P1014","Dresden Service GmbH","01067","Dresden","gültig"],
+      ["P1015","Leipzig Handel GmbH","04109","Leipzig","gültig"],
+      ["P1016","Bremen Logistik GmbH","28195","Bremen","gültig"],
+      ["P1017","Hannover Systeme GmbH","30159","Hannover","gültig"],
+      ["P1018","Fehler PLZ GmbH","91a26","Schwabach","Buchstabe in PLZ"],
+      ["P1019","Franken Technik GmbH","91126","Schwabach","Duplikat zu P1001"],
+      ["P1020","Franken-Technik GmbH","91126","Schwabach","nahe Dublette/Schreibvariante"]
+     ];
+     pushUndo("Testfall PLZ/Ort");
+     tables=[makeTable("02_PLZ_Ort_Deutschland_20_Datensaetze.xlsx","PLZ_Ort_Check",rows)];
+   }else if(which==="werkzeug_varianten"){
+     pushUndo("Testfall Werkzeuge/Hammer Varianten");
+     tables=[makeTable("05_Werkzeuge_Hammer_Varianten.xlsx","Werkzeuge_Hammer_Varianten",[
+       ["Artikelnummer","Bezeichnung","Warengruppe","Preis","Bestand","Aktiv"],
+       ["W1001","Hammer 500g","Werkzeug","19,95","35","Ja"],
+       ["W1002","Hammer 500 g","WERKZEUG","19,95","35","Ja"],
+       ["W1003","Hammer 500 G","Werkzeuge","19,95","35","Ja"],
+       ["W1004","Hammer 500-Gramm","werkzeug","19,95","35","Ja"],
+       ["W1005","Hammer 500gr","Werkzeuge ","19,95","35","Ja"],
+       ["W1006","HAMMER 500g","Werk-Zeug","19,95","35","Ja"],
+       ["W1007","Hammer 1000g","Werkzeug","29,90","18","Ja"],
+       ["W1008","Hammer 1 kg","WERKZEUGE","29,90","18","Ja"],
+       ["W1009","Schlosserhammer 500g","Werkzeug","24,50","12","Ja"],
+       ["W1010","Schlosser-Hammer 500 g","Werkzeuge","24,50","12","Ja"],
+       ["W1011","Fäustel 1000g","Werkzeug","34,90","8","Ja"],
+       ["W1012","Faeustel 1 kg","WERKZEUG","34,90","8","Ja"],
+       ["W1013","Gummihammer 450g","Werkzeug","14,90","22","Ja"],
+       ["W1014","Gummi-Hammer 450 g","Werkzeuge","14,90","22","Ja"],
+       ["W1015","Latthammer 600g","Werkzeug","27,90","15","Ja"],
+       ["W1016","Lattenhammer 600 g","WERKZEUG","27,90","15","Ja"],
+       ["W1017","Hammer 500g","Werkzeug","19,95","35","Ja"],
+       ["W1018","Hammer 500 g","Werkzeuge","19,95","35","Ja"],
+       ["W1019","Hammer 500g","","19,95","35","Ja"],
+       ["W1020","","Werkzeug","19,95","35","Ja"]
+     ])];
+   }else if(which==="articles"){
+     loadExample("multi"); current=1; renderSources(); renderAll(); return;
+   }else if(which==="customers"){
+     loadExample("triple"); return;
+   }else if(which==="broken_csv"){
+     pushUndo("Kaputte CSV-Struktur");
+     tables=[makeTable("03_Kaputte_CSV_Struktur.csv","Kaputte_CSV",[
+       ["Kundennr","Firma","PLZ","Ort","E-Mail"],
+       ["C1","Alpha GmbH","91126","Schwabach","info@alpha.de"],
+       ["C2","Beta GmbH;90402;Nürnberg;kontakt@beta.de","","","",""],
+       ["C3","Gamma GmbH","90763","Fürth","info@gamma.de","ZU_VIELE_SPALTEN"],
+       ["C4","Delta GmbH","","Erlangen",""]
+     ])];
+   }else if(which==="broken_xml"){
+     pushUndo("Kaputte XML-Struktur");
+     tables=[makeTable("04_Kaputte_XML_Struktur.xml","Kaputte_XML",[
+       ["Fehler","Beschreibung"],
+       ["XML nicht wohlgeformt","Schließendes Tag fehlt / Struktur absichtlich beschädigt"],
+       ["Hinweis","Beim echten Datei-Laden soll DataCheck den Parserfehler verständlich anzeigen"]
+     ])];
+   }else if(which==="xml_multi"){
+     loadExample("multi"); current=2; renderSources(); renderAll(); return;
+   }else if(which==="schema_mapping"){
+     loadExample("mapping"); return;
+   }
+   current=0;activeExample=which;
+   tables.forEach(t=>t.selected=true);
+   analyzeCurrent(false);
+   renderSources();renderAll();updateUndo();
+   $("status").textContent=`✓ Testfall "${which}" geladen.`;
+ }catch(e){
+   $("status").textContent="✗ Testfall konnte nicht geladen werden: "+e.message;
+ }
+}
+function markExample(which){
+ ["multi","triple","mapping"].forEach(x=>{const b=$("ex_"+x);if(b)b.className=x===which?"primary":"secondary";});
+}
+function loadExample(which){
+ pushUndo("Beispiel laden");
+ activeExample=which==="multi"?"Mehrere Tabellen":which==="triple"?"3× gleiche Firma":"Schema-Mapping";markExample(which);
+
+ if(which==="triple"){
+   tables=[makeTable("Beispiel_3x_gleiche_Firma.csv","3× gleiche Firma",[
+    ["Kundennr","Firma","Straße","PLZ","Ort","E-Mail","Telefon"],
+    ["K1","Müller Maschinenbau GmbH","Industriestr. 12","91126","Schwabach","info@mueller.de",""],
+    ["K2","Mueller Maschinenbau GmbH","Industriestraße 12","91126","Schwabach","","09122 555120"],
+    ["K3","Müller Maschinenbau","Industriestr. 12","91126","Schwabach","buchhaltung@mueller.de","09122 555120"]
+   ])];
+ }
+
+ if(which==="multi"){
+   tables=[
+    makeTable("Demo_Mehrere_Tabellen.xlsx","Kunden",[
+      ["Kundennr","Firma","PLZ","Ort","E-Mail"],
+      ["K1","Alpha GmbH","91126","Schwabach","info@alpha.de"],
+      ["K2","Alpha GmbH","911a5","Schwabach",""]
+    ]),
+    makeTable("Demo_Mehrere_Tabellen.xlsx","Artikel",[
+      ["Artikelnummer","Bezeichnung","Warengruppe","Bestand"],
+      ["A1","Hammer","Werkzeug","10"],
+      ["A1","Hammer 500g","WERKZEUG","10"]
+    ]),
+    makeTable("Demo_Mehrere_Tabellen.xml","Lieferanten",[
+      ["Lieferantennr","Firma","PLZ","Ort"],
+      ["L1","ToolPro KG","90763","Fürth"],
+      ["L2","Tool Pro KG","90763","Fürth"]
+    ])
+   ];
+ }
+
+ if(which==="mapping"){
+   tables=[
+    makeTable("Kunden_Import_A.csv","Kunden A",[
+      ["Kundennr","Firma","PLZ","Ort","E-Mail"],
+      ["A1","Alpha GmbH","91126","Schwabach","info@alpha.de"]
+    ]),
+    makeTable("Kunden_Import_B.csv","Kunden B",[
+      ["Kunden_ID","Unternehmen","Postleitzahl","Stadt","Mailadresse"],
+      ["B1","Beta GmbH","90402","Nürnberg","info@beta.de"]
+    ])
+   ];
+ }
+
+ current = tables.length ? 0 : -1;
+ // Bei einem Beispiel immer die dazugehörige erste Tabelle sichtbar öffnen.
+ // Beim Schema-Mapping wird zusätzlich gleich die Mapping-Funktion vorbereitet.
+ tables.forEach(t=>{ t.selected=true; });
+
+ // Analyze every table WITHOUT changing current permanently.
+ const keep = current;
+ for(let i=0;i<tables.length;i++){
+   current=i;
+   analyzeCurrent(false);
+ }
+ current=keep;
+
+ renderSources();
+ renderAll();
+ updateUndo();
+ schemaCandidates=[];tables.forEach(t=>t.state.schemaSuggestions=[]);
+ renderAll();updateSchemaPrompt();
+ $("status").textContent=`✓ Beispiel "${activeExample}" geladen · ${tables.length} Tabelle(n) · ${tables.reduce((s,t)=>s+Math.max(0,t.matrix.length-1),0)} Datensätze. Angezeigt wird: ${tables[current]?.name||""}.${which==="mapping"?" Jetzt auf „Auf Schema-Mapping prüfen“ klicken.":""}`;
+}updateUndo();renderSources();
+</script>
+</body></html>

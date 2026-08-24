@@ -1,0 +1,32 @@
+DATENTRA DataCheck 1.0
+======================
+
+Start:
+1. ZIP vollständig entpacken.
+2. index.html im Browser öffnen.
+3. Einen eingebauten Testfall wählen oder eigene XLSX/CSV/ODS/XML-Datei laden.
+
+Enthaltene Kernfunktionen:
+- XLSX, CSV, ODS und XML laden
+- mehrere Excel-Sheets / Tabellen
+- Datenqualität prüfen
+- fehlende Felder erkennen
+- E-Mail-Prüfung
+- PLZ-/Ort-Prüfung
+- PLZ bereinigen
+- Ort bereinigen
+- Dubletten erkennen
+- Golden Records / Zusammenführungsvorschläge
+- Schreibvarianten erkennen und vereinheitlichen
+- Schema-Mapping zwischen unterschiedlich benannten Spalten
+- Bereinigung vor Übernahme ansehen
+- Undo / Redo
+- bereinigte Daten übernehmen
+- Excel/CSV/XML/ODS exportieren
+- bei Schema-Mapping vereinheitlichte Ergebnistabelle exportieren
+
+Sichtbare Produktversion:
+DATENTRA DataCheck 1.0
+
+Interne Fehlerkorrekturen innerhalb dieser Produktversion können weiterhin als Builds geführt
+werden, ohne dass sich die sichtbare Versionsnummer für Screenshots und Vertrieb ändert.

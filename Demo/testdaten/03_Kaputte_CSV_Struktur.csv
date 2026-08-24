@@ -1,0 +1,5 @@
+﻿Kundennr;Firma;PLZ;Ort;E-Mail
+C1;Alpha GmbH;91126;Schwabach;info@alpha.de
+C2;"Beta GmbH;90402;Nürnberg;kontakt@beta.de
+C3;Gamma GmbH;90763;Fürth;info@gamma.de;ZU_VIELE_SPALTEN
+C4;Delta GmbH;;Erlangen

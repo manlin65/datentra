@@ -1,0 +1,27 @@
+DATENTRA DataCheck 1.0 – Testfälle
+==================================
+
+Direkt in der Browser-Anwendung:
+1. Mehrere Tabellen
+2. 3× gleiche Firma → Golden Record
+3. Schema-Mapping
+4. E-Mail Check – 20 Datensätze
+5. PLZ/Ort Deutschland – 20 Datensätze
+6. Artikel/Dubletten
+7. Kunden/Golden Record
+8. Werkzeuge & Hammer – Schreibvarianten
+9. Kaputte CSV-Struktur
+10. Kaputte XML-Struktur
+11. XML mit mehreren Tabellen
+12. Schema-Mapping Excel
+
+Besonders für Screenshots:
+- Golden Record: 3× gleiche Firma
+- Datenqualität: E-Mail Check
+- PLZ/Ort: PLZ/Ort Deutschland
+- Schreibvarianten: Werkzeuge & Hammer
+- Integration: Schema-Mapping
+- Fehlerbehandlung: kaputte CSV/XML
+
+Ordner testdaten:
+Enthält die vorhandenen externen XLSX/CSV/XML-Testdateien.

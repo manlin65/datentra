@@ -8,178 +8,111 @@
 :root{
  --navy:#10243d;--navy2:#1a3c59;--teal:#59c6b5;--blue:#3569d7;
  --bg:#f3f7fa;--card:#fff;--text:#14283f;--muted:#6c7b8f;--line:#dce5ed;
+ --soft:#edf4f8;--mint:#eaf7f3;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--text)}
-header{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100% - 1180px)/2))}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,var(--navy),var(--blue),var(--teal));display:grid;place-items:center;color:white;font-weight:900;font-size:23px}
+header{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100% - 1180px)/2));position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,var(--navy),var(--blue),var(--teal));display:grid;place-items:center;color:#fff;font-weight:900;font-size:23px}
 .brand b{font-size:22px}.brand small{display:block;font-size:8px;letter-spacing:1.5px;color:var(--muted)}
 header .right{font-size:12px;color:var(--muted)}
 main{width:100%;max-width:1220px;margin:0 auto;padding:22px 20px 34px}
-main>section{width:100%;max-width:none;margin-left:0;margin-right:0}
-.hero,.products,.sources,.contact{width:100%}
-.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:22px;padding:38px;color:#fff;position:relative}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:24px;padding:42px 42px 38px;color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-90px;bottom:-140px;width:480px;height:330px;background:radial-gradient(circle at center,rgba(89,198,181,.18),transparent 68%);pointer-events:none}
 .eyebrow{font-size:10px;letter-spacing:1.7px;color:var(--teal);font-weight:900}
-.hero h1{font-size:42px;line-height:1.04;margin:8px 0 11px}
-.hero h1 span,.product h2 span{color:var(--teal)}
-.hero p{max-width:780px;font-size:14px;line-height:1.55;color:#edf5fb}
-.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-.hero-tags span{display:inline-block;background:rgba(89,198,181,.16);border:1px solid rgba(89,198,181,.55);color:#8ee0d2;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
-.product{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 9px 26px rgba(18,40,65,.06)}
-.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:#edf4f8;color:#3f5b73;font-size:9px;font-weight:900;letter-spacing:1.1px}
-.product h2{font-size:28px;line-height:1.08;margin:14px 0 10px}
-.product p{font-size:13px;line-height:1.5;color:var(--muted)}
-.product ul{padding-left:19px;line-height:1.7;font-size:13px}
-.flow{display:flex;align-items:center;gap:7px;margin:18px 0}
-.step{width:73px;height:59px;border-radius:11px;background:#f5f8fb;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.step i{font-style:normal;width:23px;height:23px;border-radius:50%;background:var(--teal);color:white;display:grid;place-items:center;font-size:10px;font-weight:900}
-.step b{font-size:9px}.arr{color:#87a9c4;font-size:20px}
-.btn{display:inline-block;margin-top:16px;text-decoration:none;background:linear-gradient(135deg,var(--blue),#3d73e3);color:#fff;padding:11px 16px;border-radius:9px;font-size:12px;font-weight:900}
-.sources{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 26px}
-.sources h2{margin:4px 0 12px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chips span{background:#edf4f8;color:#456079;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}
-.contact{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 26px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
-.contact h2{margin:0 0 7px}.contact p,.contactbox{font-size:12px;line-height:1.6;color:var(--muted)}
-.contactbox{border-left:3px solid var(--teal);padding-left:15px}
+.hero h1{font-size:46px;line-height:1.03;margin:9px 0 13px;max-width:880px}.hero h1 span,.product h2 span{color:var(--teal)}
+.hero p{max-width:850px;font-size:15px;line-height:1.6;color:#edf5fb;margin:0}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.hero-tags span{display:inline-block;background:rgba(89,198,181,.14);border:1px solid rgba(89,198,181,.5);color:#9ce8dc;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px}
+.sectionhead{display:flex;justify-content:space-between;gap:20px;align-items:end;margin:28px 4px 12px}.sectionhead h2{font-size:30px;margin:3px 0 0}.sectionhead p{max-width:620px;margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.featured{display:grid;grid-template-columns:1fr 1fr;gap:18px}.more-products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.product{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:27px;box-shadow:0 10px 28px rgba(18,40,65,.06);position:relative}
+.product.priority{border-color:rgba(89,198,181,.75);box-shadow:0 14px 34px rgba(18,40,65,.09)}
+.product.priority:before{content:"KERNPRODUKT";position:absolute;right:20px;top:18px;background:var(--mint);color:#11836f;border:1px solid #bfe7dd;padding:5px 8px;border-radius:999px;font-size:8px;font-weight:900;letter-spacing:1px}
+.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:var(--soft);color:#3f5b73;font-size:9px;font-weight:900;letter-spacing:1.1px}.priority .badge{background:#e9f8f4;color:#168574}
+.product h2{font-size:29px;line-height:1.08;margin:14px 0 10px}.product p{font-size:13px;line-height:1.52;color:var(--muted)}.product ul{padding-left:19px;line-height:1.7;font-size:13px;margin-bottom:0}
+.flow{display:flex;align-items:center;gap:7px;margin:18px 0}.step{width:73px;height:59px;border-radius:11px;background:#f5f8fb;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.step i{font-style:normal;width:23px;height:23px;border-radius:50%;background:var(--teal);color:white;display:grid;place-items:center;font-size:10px;font-weight:900}.step b{font-size:9px}.arr{color:#87a9c4;font-size:20px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.btn{display:inline-block;text-decoration:none;background:linear-gradient(135deg,var(--blue),#3d73e3);color:#fff;padding:11px 16px;border-radius:9px;font-size:12px;font-weight:900}.btn.secondary{background:#edf4f8;color:#26445f;border:1px solid var(--line)}
+.sources,.contact{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:23px 27px}.sources h2{margin:4px 0 12px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chips span{background:#edf4f8;color:#456079;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}.sources p{margin:14px 0 0;font-size:13px;line-height:1.6;color:var(--muted)}
+.contact{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}.contact h2{margin:0 0 7px}.contact p,.contactbox{font-size:12px;line-height:1.6;color:var(--muted)}.contactbox{border-left:3px solid var(--teal);padding-left:15px}
 footer{max-width:1180px;margin:auto;padding:0 20px 25px;color:var(--muted);font-size:10px}
-@media(max-width:850px){.products,.contact{grid-template-columns:1fr}.hero h1{font-size:34px}header .right{display:none}}
-
-.products .product{min-width:0}
-@media(min-width:851px){
-  .products .product{padding:26px}
-  .products .product h2{font-size:30px;line-height:1.08}
-}
-
+@media(max-width:1080px){.more-products{grid-template-columns:1fr 1fr}.featured{grid-template-columns:1fr 1fr}}
+@media(max-width:850px){header .right{display:none}.hero{padding:30px}.hero h1{font-size:35px}.featured,.more-products,.contact{grid-template-columns:1fr}.sectionhead{display:block}.sectionhead p{margin-top:8px}.product.priority:before{display:none}}
 </style>
 </head>
 <body>
 <header>
- <div class="brand">
-   <div class="logo">D</div>
-   <div><b>DATENTRA</b><small>SOFTWARE · DATEN · KI · AUTOMATISIERUNG</small></div>
- </div>
+ <div class="brand"><div class="logo">D</div><div><b>DATENTRA</b><small>SOFTWARE · DATEN · KI · AUTOMATISIERUNG</small></div></div>
  <div class="right">M. Linner Softwareentwicklung & Dienstleistungen</div>
 </header>
-
 <main>
  <section class="hero">
    <div class="eyebrow">DATENTRA SOFTWARELÖSUNGEN</div>
-   <h1>Prozesse vereinfachen.<br><span>Daten intelligent nutzen.</span></h1>
-   <p>Praxisnahe Lösungen für Dokumentenverarbeitung, Datenübernahme, E-Mail-Workflows sowie Personal- und Maschinenplanung. Die Anwendungen können an vorhandene Abläufe und firmeneigene Datenstrukturen angepasst werden.</p>
-   <div class="hero-tags"><span>INVOICE</span><span>WORKFORCE</span><span>DATABRIDGE</span><span>OFFICEFLOW</span></div>
+   <h1>Geschäftsprozesse vereinfachen.<br><span>Daten prüfen, verbinden und intelligent nutzen.</span></h1>
+   <p>Praxisnahe Softwarelösungen für Datenqualität, Dokumentenverarbeitung, Datenübernahme, E-Mail-Workflows sowie Personal- und Maschinenplanung. Vom schnellen Einstieg mit Excel, ODS oder PDF bis zur individuellen Integration in bestehende Datenbanken und Systeme.</p>
+   <div class="hero-tags"><span>DATACHECK</span><span>INVOICE</span><span>DATABRIDGE</span><span>WORKFORCE</span><span>OFFICEFLOW</span></div>
  </section>
 
- <section class="products">
-   <article class="product">
-     <div class="badge">DATENTRA INVOICE</div>
-     <h2>Rechnungen erkennen.<br><span>Automatisch prüfen und übernehmen.</span></h2>
-     <p>Dokumente einlesen, Rechnungsdaten erkennen, Pflichtfelder und Beträge prüfen, Dubletten erkennen und Daten strukturiert weiterverarbeiten.</p>
-     <div class="flow">
-       <div class="step"><i>1</i><b>PDF</b></div><span class="arr">›</span>
-       <div class="step"><i>2</i><b>OCR / KI</b></div><span class="arr">›</span>
-       <div class="step"><i>3</i><b>Prüfung</b></div><span class="arr">›</span>
-       <div class="step"><i>4</i><b>Daten</b></div>
-     </div>
-     <ul>
-       <li>Rechnung, Angebot und Gutschrift</li>
-       <li>Automatische Plausibilitätsprüfung</li>
-       <li>Dubletten- und Pflichtfeldprüfung</li>
-       <li>Anpassbare Regeln und Schnittstellen</li>
-     </ul>
-     <a class="btn" href="flyer/DATENTRA_Invoice_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+ <div class="sectionhead"><div><div class="eyebrow">KERNLÖSUNGEN</div><h2>Direkter Nutzen. Schnell verständlich.</h2></div><p>DataCheck und Invoice adressieren sehr typische Aufgaben in kleinen und mittleren Unternehmen: fehlerhafte Geschäftsdaten und manuelle Dokumentenprüfung.</p></div>
+ <section class="featured">
+   <article class="product priority">
+     <div class="badge">DATENTRA DATACHECK</div>
+     <h2>Geschäftsdaten prüfen.<br><span>Fehler erkennen und sauber weiterarbeiten.</span></h2>
+     <p>Excel-, ODS-, CSV- und XML-Daten laden, Datenqualität prüfen, Dubletten erkennen, Schreibvarianten bereinigen und Golden Records bilden.</p>
+     <div class="flow"><div class="step"><i>1</i><b>Datei</b></div><span class="arr">›</span><div class="step"><i>2</i><b>Prüfung</b></div><span class="arr">›</span><div class="step"><i>3</i><b>Bereinigung</b></div><span class="arr">›</span><div class="step"><i>4</i><b>Export</b></div></div>
+     <ul><li>PLZ/Ort, E-Mail, Pflichtfelder und Datenformate prüfen</li><li>Dubletten und ähnliche Datensätze erkennen</li><li>Golden Records und Schema-Mapping</li><li>SQL Server / weitere Datenbanken optional integrierbar</li></ul>
+     <div class="actions"><a class="btn" href="flyer/DATENTRA_DataCheck_Flyer.pdf" target="_blank">Flyer ansehen →</a></div>
    </article>
 
-   <article class="product">
-     <div class="badge">DATENTRA WORKFORCE</div>
-     <h2>Personal und Maschinen.<br><span>Automatisch sinnvoll einplanen.</span></h2>
-     <p>Mitarbeiter, Qualifikationen, Maschinen, Schichtbedarf und Abwesenheiten berücksichtigen und daraus einen Wochen-Einsatzplan erzeugen.</p>
-     <div class="flow">
-       <div class="step"><i>1</i><b>Daten</b></div><span class="arr">›</span>
-       <div class="step"><i>2</i><b>Prüfen</b></div><span class="arr">›</span>
-       <div class="step"><i>3</i><b>Planung</b></div><span class="arr">›</span>
-       <div class="step"><i>4</i><b>Einsatz</b></div>
-     </div>
-     <ul>
-       <li>Maschinenqualifikation und Schichtfreigaben</li>
-       <li>Abwesenheiten und Wochenbedarf</li>
-       <li>Krankheitsquote und Springerreserve</li>
-       <li>Persönliche Wochenpläne je Mitarbeiter</li>
-     </ul>
-     <a class="btn" href="flyer/DATENTRA_Workforce_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+   <article class="product priority">
+     <div class="badge">DATENTRA INVOICE</div>
+     <h2>Rechnungen erkennen.<br><span>Automatisch prüfen und übernehmen.</span></h2>
+     <p>Rechnungen, Angebote und Gutschriften einlesen, relevante Daten erkennen, Pflichtfelder und Beträge prüfen, Dubletten erkennen und strukturiert weiterverarbeiten.</p>
+     <div class="flow"><div class="step"><i>1</i><b>PDF</b></div><span class="arr">›</span><div class="step"><i>2</i><b>OCR / KI</b></div><span class="arr">›</span><div class="step"><i>3</i><b>Prüfung</b></div><span class="arr">›</span><div class="step"><i>4</i><b>Ziel</b></div></div>
+     <ul><li>Rechnung, Angebot und Gutschrift</li><li>Automatische Plausibilitätsprüfung</li><li>Fälligkeit, MwSt., Beträge und Dubletten prüfen</li><li>Excel/CSV, SQL oder weitere Zielsysteme</li></ul>
+     <div class="actions"><a class="btn" href="flyer/DATENTRA_Invoice_Flyer.pdf" target="_blank">Flyer ansehen →</a></div>
    </article>
+ </section>
+
+ <div class="sectionhead"><div><div class="eyebrow">WEITERE LÖSUNGEN</div><h2>Daten bewegen, Abläufe automatisieren, Ressourcen planen.</h2></div><p>Die weiteren DATENTRA-Produkte ergänzen die Kernlösungen und können je nach Kundenprozess einzeln oder kombiniert eingesetzt werden.</p></div>
+ <section class="more-products">
    <article class="product">
      <div class="badge">DATENTRA DATABRIDGE</div>
      <h2>Daten verbinden.<br><span>Ohne manuelle Übertragung.</span></h2>
      <p>CSV, Excel, ODS und SQL Server einlesen, Daten prüfen, Spalten zuordnen und kontrolliert in ein Zielsystem übertragen.</p>
-     <div class="flow">
-       <div class="step"><i>1</i><b>Quelle</b></div><span class="arr">›</span>
-       <div class="step"><i>2</i><b>Prüfen</b></div><span class="arr">›</span>
-       <div class="step"><i>3</i><b>Zuordnen</b></div><span class="arr">›</span>
-       <div class="step"><i>4</i><b>Ziel</b></div>
-     </div>
-     <ul>
-       <li>CSV, Excel, ODS und SQL Server</li>
-       <li>Vorschau, Prüfung und Feldzuordnung</li>
-       <li>Gute und fehlerhafte Testdateien inklusive</li>
-       <li>Ausbaubar zur universellen Datendrehscheibe</li>
-     </ul>
-     <a class="btn" href="flyer/DATENTRA_DataBridge_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+     <div class="flow"><div class="step"><i>1</i><b>Quelle</b></div><span class="arr">›</span><div class="step"><i>2</i><b>Prüfen</b></div><span class="arr">›</span><div class="step"><i>3</i><b>Zuordnen</b></div><span class="arr">›</span><div class="step"><i>4</i><b>Ziel</b></div></div>
+     <ul><li>CSV, Excel, ODS und SQL Server</li><li>Vorschau, Prüfung und Feldzuordnung</li><li>Excel ↔ DB und DB ↔ DB als Zielbild</li></ul>
+     <div class="actions"><a class="btn secondary" href="flyer/DATENTRA_DataBridge_Flyer.pdf" target="_blank">Flyer ansehen →</a></div>
+   </article>
+   <article class="product">
+     <div class="badge">DATENTRA WORKFORCE</div>
+     <h2>Personal und Maschinen.<br><span>Automatisch sinnvoll einplanen.</span></h2>
+     <p>Mitarbeiter, Qualifikationen, Maschinen, Schichtbedarf und Abwesenheiten berücksichtigen und daraus einen Wochen-Einsatzplan erzeugen.</p>
+     <div class="flow"><div class="step"><i>1</i><b>Daten</b></div><span class="arr">›</span><div class="step"><i>2</i><b>Prüfen</b></div><span class="arr">›</span><div class="step"><i>3</i><b>Planung</b></div><span class="arr">›</span><div class="step"><i>4</i><b>Einsatz</b></div></div>
+     <ul><li>Qualifikationen und Schichtfreigaben</li><li>Krankheitsquote und Springerreserve</li><li>Persönliche Wochenpläne</li></ul>
+     <div class="actions"><a class="btn secondary" href="flyer/DATENTRA_Workforce_Flyer.pdf" target="_blank">Flyer ansehen →</a></div>
    </article>
    <article class="product">
      <div class="badge">DATENTRA OFFICEFLOW</div>
      <h2>E-Mail rein.<br><span>Strukturierter Vorgang raus.</span></h2>
      <p>E-Mails einlesen, wichtige Informationen erkennen, den Vorgang vor der Speicherung prüfen und strukturiert weiterverarbeiten.</p>
-     <div class="flow">
-       <div class="step"><i>1</i><b>E-Mail</b></div><span class="arr">›</span>
-       <div class="step"><i>2</i><b>Erkennen</b></div><span class="arr">›</span>
-       <div class="step"><i>3</i><b>Editieren</b></div><span class="arr">›</span>
-       <div class="step"><i>4</i><b>ODS</b></div>
-     </div>
-     <ul>
-       <li>Reklamationen, Wartungen, Prüfungen und Aufgaben</li>
-       <li>Absender, Betreff, Priorität und Fälligkeit erkennen</li>
-       <li>Alle Daten vor Speicherung kontrollierbar</li>
-       <li>Später IMAP/Outlook, Datenbank, ERP oder DMS</li>
-     </ul>
-     <a class="btn" href="flyer/DATENTRA_OfficeFlow_Flyer.pdf" target="_blank">Flyer ansehen →</a>
+     <div class="flow"><div class="step"><i>1</i><b>E-Mail</b></div><span class="arr">›</span><div class="step"><i>2</i><b>Erkennen</b></div><span class="arr">›</span><div class="step"><i>3</i><b>Prüfen</b></div><span class="arr">›</span><div class="step"><i>4</i><b>Vorgang</b></div></div>
+     <ul><li>Reklamationen, Wartungen und Aufgaben</li><li>Priorität und Fälligkeit vorschlagen</li><li>Postfach/DB/ERP/DMS als Ausbaustufen</li></ul>
+     <div class="actions"><a class="btn secondary" href="flyer/DATENTRA_OfficeFlow_Flyer.pdf" target="_blank">Flyer ansehen →</a></div>
    </article>
  </section>
 
  <section class="sources">
-   <div class="eyebrow">DATENQUELLEN & SCHNITTSTELLEN</div>
-   <h2>An vorhandene Datenstrukturen anpassbar.</h2>
-   <div class="chips">
-     <span>Excel / ODS</span><span>SQL Server</span><span>Oracle</span><span>REST API</span><span>DMS / ERP</span><span>firmeneigene Datenstruktur</span>
-   </div>
-   <p style="margin:15px 0 0;font-size:13px;line-height:1.6;color:var(--muted)">
-     <b style="color:var(--text)">DataBridge-Zielbild:</b>
-     Datenquellen und Zielsysteme frei kombinieren – z. B.
-     <b>Excel ↔ Excel</b>, <b>Excel ↔ Datenbank</b>, <b>Datenbank ↔ Datenbank</b> oder <b>Datei ↔ Datei</b>.
-     Weitere Ausbaustufen: Daten vor der Speicherung bearbeiten, Prüfregeln und Importprofile speichern sowie Daten kontrolliert zwischen Systemen verschieben.
-   </p>
- <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:var(--muted)">
-     <b style="color:var(--text)">OfficeFlow:</b>
-     E-Mails werden in strukturierte Vorgänge überführt. Heute mit ODS, später optional mit automatischem Postfacheingang sowie SQL Server, Oracle, ERP oder DMS.
-   </p>
-   </section>
+   <div class="eyebrow">DATENQUELLEN & SCHNITTSTELLEN</div><h2>Vom vorhandenen Datenbestand zur integrierten Lösung.</h2>
+   <div class="chips"><span>Excel / XLSX</span><span>ODS</span><span>CSV</span><span>XML</span><span>PDF</span><span>SQL Server</span><span>Oracle</span><span>REST API</span><span>DMS / ERP</span><span>firmeneigene Datenstruktur</span></div>
+   <p><b style="color:var(--text)">Schrittweise ausbaubar:</b> Die Demonstratoren starten bewusst mit leicht verfügbaren Datenquellen. Im produktiven Einsatz können vorhandene Datenbanken, Postfächer und Zielsysteme angebunden werden.</p>
+ </section>
 
  <section class="contact">
-   <div>
-     <h2>Sie haben einen ähnlichen Ablauf?</h2>
-     <p>Die gezeigten Anwendungen sind Beispiele dafür, wie bestehende Prozesse automatisiert, geprüft und mit vorhandenen Datenquellen verbunden werden können.</p>
-   </div>
-   <div class="contactbox">
-     <b>M. Linner Softwareentwicklung & Dienstleistungen</b><br>
-     Manfred Linner · Dipl.-Informatiker (FH)<br>
-     IT · Daten · KI · Automatisierung<br>
-     Tel. +49 160 7838773<br>
-     mcllinner@hotmail.com<br>
-     www.mlinner-software.de
-   </div>
+   <div><h2>Sie haben einen ähnlichen Ablauf?</h2><p>Die gezeigten Produkte sind eigenständige Lösungen und zugleich Bausteine für kundenspezifische Automatisierung. Daten prüfen, strukturieren, übertragen und anschließend in vorhandenen Prozessen weiterverwenden.</p></div>
+   <div class="contactbox"><b>M. Linner Softwareentwicklung & Dienstleistungen</b><br>Manfred Linner · Dipl.-Informatiker (FH)<br>IT · Daten · KI · Automatisierung<br>Tel. +49 160 7838773<br>mcllinner@hotmail.com<br>www.mlinner-software.de</div>
  </section>
 </main>
-
 <footer>DATENTRA · M. Linner Softwareentwicklung & Dienstleistungen · Schwabach</footer>
 </body>
 </html>

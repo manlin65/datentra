@@ -1,0 +1,21 @@
+﻿Artikelnummer;Bezeichnung;Warengruppe;Preis;Bestand;Aktiv
+W1001;Hammer 500g;Werkzeug;19,95;35;Ja
+W1002;Hammer 500 g;WERKZEUG;19,95;35;Ja
+W1003;Hammer 500 G;Werkzeuge;19,95;35;Ja
+W1004;Hammer 500-Gramm;werkzeug;19,95;35;Ja
+W1005;Hammer 500gr;Werkzeuge ;19,95;35;Ja
+W1006;HAMMER 500g;Werk-Zeug;19,95;35;Ja
+W1007;Hammer 1000g;Werkzeug;29,90;18;Ja
+W1008;Hammer 1 kg;WERKZEUGE;29,90;18;Ja
+W1009;Schlosserhammer 500g;Werkzeug;24,50;12;Ja
+W1010;Schlosser-Hammer 500 g;Werkzeuge;24,50;12;Ja
+W1011;Fäustel 1000g;Werkzeug;34,90;8;Ja
+W1012;Faeustel 1 kg;WERKZEUG;34,90;8;Ja
+W1013;Gummihammer 450g;Werkzeug;14,90;22;Ja
+W1014;Gummi-Hammer 450 g;Werkzeuge;14,90;22;Ja
+W1015;Latthammer 600g;Werkzeug;27,90;15;Ja
+W1016;Lattenhammer 600 g;WERKZEUG;27,90;15;Ja
+W1017;Hammer 500g;Werkzeug;19,95;35;Ja
+W1018;Hammer 500 g;Werkzeuge;19,95;35;Ja
+W1019;Hammer 500g;;19,95;35;Ja
+W1020;;Werkzeug;19,95;35;Ja

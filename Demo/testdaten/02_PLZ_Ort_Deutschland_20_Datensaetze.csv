@@ -1,0 +1,21 @@
+﻿Kundennr;Firma;PLZ;Ort;Hinweis_Testfall
+P1001;Franken Technik GmbH;91126;Schwabach;gültig
+P1002;Nürnberg Handel GmbH;90402;Nürnberg;gültig
+P1003;Falschstadt GmbH;91126;Nürnberg;PLZ gehört zu Schwabach
+P1004;Altstadt Service KG;90402;Schwabach;PLZ gehört zu Nürnberg
+P1005;Fürth Werkzeug GmbH;90762;Fürth;gültig
+P1006;Erlangen Systeme AG;91052;Erlangen;gültig
+P1007;Roth Logistik GmbH;91154;Roth;gültig
+P1008;München Consulting GmbH;80331;München;gültig
+P1009;Berlin Digital GmbH;10115;Berlin;gültig
+P1010;Hamburg Hafen GmbH;20095;Hamburg;gültig
+P1011;Köln Media GmbH;50667;Köln;gültig
+P1012;Frankfurt Finance AG;60311;Frankfurt am Main;gültig
+P1013;Stuttgart Technik GmbH;70173;Stuttgart;gültig
+P1014;Dresden Service GmbH;01067;Dresden;gültig
+P1015;Leipzig Handel GmbH;04109;Leipzig;gültig
+P1016;Bremen Logistik GmbH;28195;Bremen;gültig
+P1017;Hannover Systeme GmbH;30159;Hannover;gültig
+P1018;Fehler PLZ GmbH;91a26;Schwabach;Buchstabe in PLZ
+P1019;Franken Technik GmbH;91126;Schwabach;Duplikat zu P1001
+P1020;Franken-Technik GmbH;91126;Schwabach;nahe Dublette/Schreibvariante

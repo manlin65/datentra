@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export>
+  <Kunden>
+    <Kunde><Kundennr>X1001</Kundennr><Firma>Müller Maschinenbau GmbH</Firma><PLZ>91126</PLZ><Ort>Schwabach</Ort><Email>info@mueller.de</Email><Telefon/></Kunde>
+    <Kunde><Kundennr>X1002</Kundennr><Firma>Mueller Maschinenbau GmbH</Firma><PLZ>911a5</PLZ><Ort>Schwabach</Ort><Email/><Telefon>09122 555120</Telefon></Kunde>
+  </Kunden>
+  <Artikel>
+    <Artikel><Artikelnummer>XA-1</Artikelnummer><Bezeichnung>Bohrer</Bezeichnung><Warengruppe>Werkzeug</Warengruppe><Bestand>10</Bestand></Artikel>
+    <Artikel><Artikelnummer>XA-1</Artikelnummer><Bezeichnung>Bohrer 8mm</Bezeichnung><Warengruppe>WERKZEUG</Warengruppe><Bestand>10</Bestand></Artikel>
+  </Artikel>
+  <Lieferanten>
+    <Lieferant><Lieferantennr>XL1</Lieferantennr><Firma>ToolPro KG</Firma><PLZ>90763</PLZ><Ort>Fürth</Ort><Email>info@toolpro.de</Email></Lieferant>
+    <Lieferant><Lieferantennr>XL2</Lieferantennr><Firma>Tool Pro KG</Firma><PLZ>90763</PLZ><Ort>Fürth</Ort><Email/></Lieferant>
+  </Lieferanten>
+</Export>

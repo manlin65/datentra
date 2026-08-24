@@ -1,0 +1,21 @@
+DATENTRA DataCheck 1.0 – Screenshot-Checkliste
+==============================================
+
+Empfohlene Screens:
+1. Startansicht mit DATENTRA DataCheck 1.0
+2. geladene Excel-Datei / Tabellenübersicht
+3. Datenqualität & Vorschläge
+4. PLZ/Ort-Konflikt mit Korrekturvorschlag
+5. E-Mail-Fehler mit Erklärung
+6. Dubletten / Golden Record
+7. Werkzeuge/Hammer – Schreibvarianten + „Für alle übernehmen“
+8. Schema-Mapping erkannt
+9. Mapping-Dialog
+10. vereinheitlichte Tabelle nach Mapping
+11. Bereinigungsvorschau
+12. Speichern / Export
+
+Vor Screenshots:
+- Browser-Zoom einheitlich halten.
+- Keine privaten/eigenen Kundendaten verwenden.
+- Nur die mitgelieferten Testdaten zeigen.

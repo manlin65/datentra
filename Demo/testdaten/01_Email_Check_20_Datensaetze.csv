@@ -1,0 +1,21 @@
+﻿Kundennr;Firma;E-Mail;Hinweis_Testfall
+E1001;Alpha Maschinenbau GmbH;info@alpha-mb.de;gültig
+E1002;Beta Logistik GmbH;kontakt@beta-logistik.de;gültig
+E1003;Gamma Service KG;info @gamma-service.de;Leerzeichen vor @
+E1004;Delta Elektro GmbH;office@delta-elektro;Domain-Endung fehlt
+E1005;Epsilon Handel AG;verkauf.epsilon.de;@ fehlt
+E1006;Zeta Metall GmbH;info@@zeta-metall.de;doppeltes @
+E1007;Eta Technik GmbH;;fehlender Wert
+E1008;Theta Bau KG;info@ theta-bau.de;Leerzeichen nach @
+E1009;Iota Systems GmbH;service@iota systems.de;Leerzeichen in Domain
+E1010;Kappa IT GmbH;support@kappa-it.de;gültig
+E1011;Lambda GmbH;info@lambda..de;doppelter Punkt
+E1012;Mueller Maschinenbau GmbH;info@mueller-mb.de;gültig
+E1013;Müller Maschinenbau GmbH;info@mueller-mb.de;Duplikat/Schreibvariante Firma
+E1014;Nu Consulting GmbH;info@nu-consulting.com;gültig
+E1015;Xi Werkzeuge KG;info@xi-werkzeuge.de ;Leerzeichen am Ende
+E1016;Omikron AG;info@omikron.de;gültig
+E1017;Pi GmbH;@pi-gmbh.de;lokaler Teil fehlt
+E1018;Rho GmbH;rho@.de;Domainname fehlt
+E1019;Sigma GmbH;kontakt@sigma.de;gültig
+E1020;Sigma GmbH;kontakt@sigma.de;exaktes Duplikat

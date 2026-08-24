@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Kunden>
+  <Kunde><Kundennr>X1</Kundennr><Firma>Alpha GmbH</Firma><PLZ>91126</PLZ><Ort>Schwabach</Ort></Kunde>
+  <Kunde><Kundennr>X2</Kundennr><Firma>Beta GmbH</Firma><PLZ>90402</PLZ><Ort>Nürnberg</Ort>
+</Kunden>
