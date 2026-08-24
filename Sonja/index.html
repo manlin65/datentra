@@ -2,45 +2,95 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Für Sonja</title>
 <style>
-:root{--bg:#f4f0ea;--card:#fffdf9;--text:#292725;--muted:#746f69;--accent:#9c6d64}
-*{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#eee7df,#f8f5f0);font-family:Georgia,'Times New Roman',serif;color:var(--text)}
-.card{width:min(680px,100%);background:rgba(255,253,249,.96);border:1px solid rgba(60,45,35,.09);border-radius:22px;padding:clamp(30px,7vw,62px);box-shadow:0 20px 60px rgba(60,45,35,.12)}
-.small{text-transform:uppercase;letter-spacing:.16em;font:600 11px/1.4 Arial,sans-serif;color:var(--muted);margin-bottom:28px}
-h1{font-size:clamp(30px,6vw,46px);font-weight:400;margin:0 0 30px}p{font-size:clamp(18px,3.4vw,22px);line-height:1.65;margin:0 0 20px}.strong{font-size:clamp(25px,5vw,34px);font-weight:700;margin:28px 0}.sign{margin-top:36px;font-weight:700}.work{margin-top:34px;padding-top:28px;border-top:1px solid #e7ded5}.button{display:inline-block;margin-top:8px;padding:12px 18px;border-radius:12px;background:#292725;color:#fff;text-decoration:none;font:600 14px/1.2 Arial,sans-serif;letter-spacing:.01em}.button:hover{opacity:.9}.note{margin-top:38px;padding-top:20px;border-top:1px solid #e7ded5;font:13px/1.5 Arial,sans-serif;color:var(--muted)}
+  body{
+    margin:0;
+    background:#fff6f8;
+    color:#4a3740;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+  .wrap{
+    max-width:680px;
+    margin:60px auto;
+    padding:32px;
+    background:#ffffff;
+    border:1px solid #f1cbd5;
+    border-radius:14px;
+  }
+  h1{
+    margin-top:0;
+    color:#b85f79;
+    font-size:30px;
+    font-weight:600;
+  }
+  p{
+    font-size:19px;
+    line-height:1.6;
+    margin:0 0 18px;
+  }
+  strong{
+    color:#9f4f68;
+  }
+  .hugs{
+    font-size:28px;
+    margin-top:24px;
+  }
+  .sign{
+    margin-top:18px;
+    font-size:21px;
+  }
+  .note{
+    margin-top:30px;
+    padding-top:16px;
+    border-top:1px solid #f1d9df;
+    color:#8a737c;
+    font-size:12px;
+  }
+  @media(max-width:720px){
+    .wrap{
+      margin:20px 14px;
+      padding:24px 20px;
+    }
+    p{font-size:18px}
+  }
 </style>
 </head>
-<body><main class="card">
-<div class="small">Nur für dich</div>
-<h1>Hallo Sonja,</h1>
-<p>die Seite ist nur für dich.</p>
-<p>Ich weiß gar nicht, wie ich es anders sagen soll. Die letzten Tage haben mir eines ziemlich deutlich gezeigt:</p>
-<p class="strong">Du fehlst mir. Und zwar sehr.</p>
-<p>Ich kann machen, was ich will, ich denke immer wieder an dich. Ich habe versucht, erstmal Ruhe reinzubringen und meinen Kopf mit Arbeit und allem anderen vollzumachen. Aber meine Gefühle für dich sind deswegen nicht einfach weg.</p>
-<p>Ich wollte einfach, dass du weißt, wie es mir geht und was ich fühle.</p>
-<p><strong>Du bist mir nach wie vor sehr wichtig.</strong></p>
-<p>Und ich möchte ehrlich sein: <strong>Ich wünsche mir, dass du dich bei mir meldest.</strong> Ich würde mich wirklich sehr freuen, von dir zu hören.</p>
-<p class="sign">Manni 🫂🫂🫂</p>
-<section class="work">
-<p><strong>Und noch was:</strong> Ich war die letzten Tage ziemlich produktiv und habe einiges auf die Beine gestellt.</p>
-<p>Hier geht’s zu meiner Page. Die wird im Laufe des Tages heute noch glattgezogen – es fehlt noch einiges, aber du bekommst schon einen guten Eindruck, wohin es gehen soll.</p>
-<a class="button" href="http://datentra.mlinner-software.de/" target="_blank" rel="noopener">Zur Page</a>
-</section>
-<div class="note">Diese persönliche Seite ist bis 26.08.2026, 00:00 Uhr erreichbar. Danach wirst du automatisch zu meiner Page weitergeleitet.<br>Page erstellt mit KI, Text ist von mir.</div>
-</main>
-<script>
-(function(){
-  const expiresAt = new Date('2026-08-26T00:00:00+02:00').getTime();
-  const redirectUrl = 'http://datentra.mlinner-software.de/';
-  function checkExpiry(){
-    if (Date.now() >= expiresAt) {
-      window.location.replace(redirectUrl);
-    }
-  }
-  checkExpiry();
-  setInterval(checkExpiry, 30000);
-})();
-</script>
-</body></html>
+<body>
+  <div class="wrap">
+    <h1>Hallo Sonja,</h1>
+
+    <p>wie geht es dir?</p>
+
+    <p>Bei mir ist gerade ziemlich viel los. Mark ist diese Woche noch im Urlaub, deshalb arbeite ich jeden Tag bis ca. 16:30 Uhr.</p>
+
+    <p>Danach geht es oft weiter mit meinem eigenen Ding – Website, Produkte, Ideen, Kontakte – und den ganzen anderen Sachen, die gerade parallel laufen. Unterm Strich komme ich momentan teilweise auf <strong>12 bis 15 Stunden am Tag</strong>.</p>
+
+    <p>Es ist viel, aber ich bin auch ziemlich produktiv und es macht mir Spaß, mein eigenes Ding voranzubringen.</p>
+
+    <p>Morgen treffe ich Klaus. Donnerstag Nachmittag fahre ich nach Mainz und abends treffe ich dort Nils geschäftlich. Danach Freitag, Samstag, Sonntag Hochzeit und alles drumherum. Montag geht es wieder heim.</p>
+
+    <p>Eigentlich habe ich also mehr als genug Arbeit und andere Aktivitäten, um meinen Kopf komplett voll zu haben.</p>
+
+    <p><strong>Aber du fehlst mir trotzdem ganz arg.</strong></p>
+
+    <p>Und ich merke, dass meine Gefühle für dich nach wie vor sehr stark sind.</p>
+
+    <p><strong>Du bist mir wichtig. Sehr.</strong></p>
+
+    <p>Ich weiß nicht, ob meine Nachrichten in den letzten Tagen für dich vielleicht zu viel waren. Falls das so gewesen sein sollte, tut mir das leid.</p>
+
+    <p><strong>Das hier ist deshalb mein letzter Versuch, von mir aus auf dich zuzugehen. Ich werde dich danach nicht weiter kontaktieren oder belästigen.</strong></p>
+
+    <p>Aber eines möchte ich noch ganz klar sagen: Ich würde dich sehr gerne hören und mit dir reden.</p>
+
+    <p><strong>Ruf mich einfach an, wenn es dir passt. Je früher, desto lieber – ich würde mich wirklich freuen, dich zu hören.</strong></p>
+
+    <div class="hugs">🫂🫂🫂</div>
+    <div class="sign">Manni</div>
+
+    <div class="note">Page erstellt mit KI, Text ist von mir.</div>
+  </div>
+</body>
+</html>
