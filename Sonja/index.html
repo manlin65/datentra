@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Für Sonja</title>
+<style>
+:root{--bg:#f4f0ea;--card:#fffdf9;--text:#292725;--muted:#746f69;--accent:#9c6d64}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#eee7df,#f8f5f0);font-family:Georgia,'Times New Roman',serif;color:var(--text)}
+.card{width:min(680px,100%);background:rgba(255,253,249,.96);border:1px solid rgba(60,45,35,.09);border-radius:22px;padding:clamp(30px,7vw,62px);box-shadow:0 20px 60px rgba(60,45,35,.12)}
+.small{text-transform:uppercase;letter-spacing:.16em;font:600 11px/1.4 Arial,sans-serif;color:var(--muted);margin-bottom:28px}
+h1{font-size:clamp(30px,6vw,46px);font-weight:400;margin:0 0 30px}p{font-size:clamp(18px,3.4vw,22px);line-height:1.65;margin:0 0 20px}.strong{font-size:clamp(25px,5vw,34px);font-weight:700;margin:28px 0}.sign{margin-top:36px;font-weight:700}.work{margin-top:34px;padding-top:28px;border-top:1px solid #e7ded5}.button{display:inline-block;margin-top:8px;padding:12px 18px;border-radius:12px;background:#292725;color:#fff;text-decoration:none;font:600 14px/1.2 Arial,sans-serif;letter-spacing:.01em}.button:hover{opacity:.9}.note{margin-top:38px;padding-top:20px;border-top:1px solid #e7ded5;font:13px/1.5 Arial,sans-serif;color:var(--muted)}
+</style>
+</head>
+<body><main class="card">
+<div class="small">Nur für dich</div>
+<h1>Hallo Sonja,</h1>
+<p>die Seite ist nur für dich.</p>
+<p>Ich weiß gar nicht, wie ich es anders sagen soll. Die letzten Tage haben mir eines ziemlich deutlich gezeigt:</p>
+<p class="strong">Du fehlst mir. Und zwar sehr.</p>
+<p>Ich kann machen, was ich will, ich denke immer wieder an dich. Ich habe versucht, erstmal Ruhe reinzubringen und meinen Kopf mit Arbeit und allem anderen vollzumachen. Aber meine Gefühle für dich sind deswegen nicht einfach weg.</p>
+<p>Ich wollte einfach, dass du weißt, wie es mir geht und was ich fühle.</p>
+<p><strong>Du bist mir nach wie vor sehr wichtig.</strong></p>
+<p>Und ich möchte ehrlich sein: <strong>Ich wünsche mir, dass du dich bei mir meldest.</strong> Ich würde mich wirklich sehr freuen, von dir zu hören.</p>
+<p class="sign">Manni 🫂🫂🫂</p>
+<section class="work">
+<p><strong>Und noch was:</strong> Ich war die letzten Tage ziemlich produktiv und habe einiges auf die Beine gestellt.</p>
+<p>Hier geht’s zu meiner Page. Die wird im Laufe des Tages heute noch glattgezogen – es fehlt noch einiges, aber du bekommst schon einen guten Eindruck, wohin es gehen soll.</p>
+<a class="button" href="http://datentra.mlinner-software.de/" target="_blank" rel="noopener">Zur Page</a>
+</section>
+<div class="note">Diese persönliche Seite ist bis 26.08.2026, 00:00 Uhr erreichbar. Danach wirst du automatisch zu meiner Page weitergeleitet.<br>Page erstellt mit KI, Text ist von mir.</div>
+</main>
+<script>
+(function(){
+  const expiresAt = new Date('2026-08-26T00:00:00+02:00').getTime();
+  const redirectUrl = 'http://datentra.mlinner-software.de/';
+  function checkExpiry(){
+    if (Date.now() >= expiresAt) {
+      window.location.replace(redirectUrl);
+    }
+  }
+  checkExpiry();
+  setInterval(checkExpiry, 30000);
+})();
+</script>
+</body></html>
