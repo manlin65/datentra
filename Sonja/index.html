@@ -1,5 +1,225 @@
 <!doctype html>
 <html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Was bei mir gerade entsteht</title>
+<style>
+:root{
+  --bg:#071813;
+  --panel:#0d2a21;
+  --panel2:#12382c;
+  --green:#58dc91;
+  --text:#f6fbf8;
+  --muted:#a9c3b7;
+  --line:#214b3b;
+  --gold:#e5c66b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(88,220,145,.10), transparent 32%),
+    linear-gradient(180deg,#06140f,#091d17 55%,#06140f);
+  color:var(--text);
+}
+.wrap{max-width:1040px;margin:auto;padding:28px 20px 60px}
+.hero{
+  min-height:72vh;
+  display:flex;align-items:center;
+  padding:54px 0 38px;
+}
+.hero-box{
+  width:100%;
+  border:1px solid var(--line);
+  background:rgba(13,42,33,.76);
+  border-radius:24px;
+  padding:44px;
+  box-shadow:0 24px 80px rgba(0,0,0,.28);
+}
+.eyebrow{
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:13px;font-weight:700;
+  margin-bottom:18px;
+}
+h1{
+  font-size:clamp(38px,7vw,72px);
+  line-height:1.02;
+  margin:0 0 22px;
+  letter-spacing:-.035em;
+}
+.lead{
+  color:var(--muted);
+  font-size:clamp(18px,2.6vw,24px);
+  line-height:1.5;
+  max-width:820px;
+  margin:0;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:30px;
+}
+.card{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px;
+}
+.card strong{
+  display:block;
+  color:var(--green);
+  font-size:18px;
+  margin-bottom:8px;
+}
+.card span{
+  color:var(--muted);
+  line-height:1.5;
+}
+.cta{
+  margin-top:30px;
+  display:flex;gap:14px;flex-wrap:wrap;
+}
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  border-radius:12px;
+  padding:15px 22px;
+  font-weight:700;
+  transition:.18s ease;
+}
+.primary{background:var(--green);color:#06140f}
+.secondary{border:1px solid var(--line);color:var(--text);background:#0b211a}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.section{
+  padding:44px 0;
+}
+.section h2{
+  font-size:32px;
+  margin:0 0 12px;
+}
+.section p{
+  color:var(--muted);
+  line-height:1.65;
+  font-size:17px;
+  max-width:820px;
+}
+.benefits{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-top:24px;
+}
+.benefit{
+  padding:18px;
+  border-radius:16px;
+  background:#0b241c;
+  border:1px solid var(--line);
+  min-height:132px;
+}
+.benefit b{
+  display:block;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.benefit small{
+  color:var(--muted);
+  line-height:1.45;
+  font-size:14px;
+}
+.pdfbox{
+  margin-top:26px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+}
+iframe{
+  width:100%;height:720px;border:0;display:block;
+}
+.note{
+  margin-top:20px;
+  color:#86a99a;
+  font-size:13px;
+  text-align:center;
+}
+@media(max-width:850px){
+  .grid{grid-template-columns:1fr}
+  .benefits{grid-template-columns:1fr 1fr}
+  .hero{min-height:auto;padding-top:30px}
+  .hero-box{padding:28px}
+  iframe{height:560px}
+}
+@media(max-width:520px){
+  .benefits{grid-template-columns:1fr}
+  h1{font-size:42px}
+  iframe{height:480px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-box">
+      <div class="eyebrow">Schön, dass du nochmal vorbeischaust, Sonja.</div>
+      <h1>Aus einer Idee sind inzwischen mehrere kleine Tools geworden.</h1>
+      <p class="lead">
+        Diese Seite ist quick and dirty von der KI erstellt worden. Ich wollte dir einfach mal zeigen, was bei mir gerade entsteht.
+        Inzwischen sind daraus mehrere kleine Tools rund um Automatisierung, Datenprüfung und Prozessanalyse geworden.
+      </p>
 
+      <div class="grid">
+        <div class="card">
+          <strong>Automatisierung</strong>
+          <span>Wiederkehrende Abläufe erkennen und Ansatzpunkte sichtbar machen.</span>
+        </div>
+        <div class="card">
+          <strong>Datenprüfung</strong>
+          <span>Vorhandene Dateien und Strukturen prüfen, vergleichen und transparenter machen.</span>
+        </div>
+        <div class="card">
+          <strong>Prozessanalyse</strong>
+          <span>Mit echten Stichproben testen, wo sich ein nächster Schritt wirklich lohnt.</span>
+        </div>
+      </div>
 
+      <div class="cta">
+        <a class="btn primary" href="#broschuere">Broschüre ansehen</a>
+        <a class="btn secondary" href="Automation_Finder_1.0_Broschuere.pdf" target="_blank">PDF direkt öffnen</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Die wichtigsten Punkte</h2>
+    <p>Einfach starten, vorhandene Daten nutzen und schnell sehen, wo Potenzial steckt.</p>
+
+    <div class="benefits">
+      <div class="benefit"><b>Schneller Überblick</b><small>Automatisierungspotenziale in vorhandenen Dateien sichtbar machen.</small></div>
+      <div class="benefit"><b>Reale Datenbasis</b><small>Analyse auf Basis vorhandener Dateien statt theoretischer Annahmen.</small></div>
+      <div class="benefit"><b>Nachvollziehbar</b><small>Stichproben, Erkennungsquote und erkannte Muster transparent ausweisen.</small></div>
+      <div class="benefit"><b>Konkrete Chancen</b><small>Wiederkehrende Abläufe erkennen und priorisieren.</small></div>
+      <div class="benefit"><b>Geringer Einstieg</b><small>Ordner auswählen, analysieren und erste Chancen direkt prüfen.</small></div>
+    </div>
+  </section>
+
+  <section class="section" id="broschuere">
+    <h2>Ein Beispiel</h2>
+    <p>Hier ist die aktuelle Broschüre zu einem der Tools. Sie zeigt, wie aus einem vorhandenen Dateiordner konkrete Automatisierungschancen und echte Testergebnisse entstehen.</p>
+    <div class="pdfbox">
+      <iframe src="Automation_Finder_1.0_Broschuere.pdf#view=FitH"></iframe>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="Automation_Finder_1.0_Broschuere.pdf" target="_blank">Broschüre als PDF öffnen</a>
+    </div>
+  </section>
+
+  <div class="note">Nur ein kleiner Einblick in das, woran ich gerade arbeite.</div>
+</div>
+</body>
 </html>
